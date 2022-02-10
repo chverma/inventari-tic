@@ -7,10 +7,10 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
 </head>
 <body ng-controller="getDetailController">
-    <div class="nav-bar" ng-include="'navbar.html'"></div>
+    <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav> 
     <div class="container">
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
