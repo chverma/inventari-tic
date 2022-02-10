@@ -1,2 +1,2 @@
-# Gestor de parts d'incidència
-Més info: https://github.com/chverma/gestor-incidencies-docker
+# Inventari TIC
+Més info: https://github.com/chverma/inventari-tic-docker
