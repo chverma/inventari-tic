@@ -17,7 +17,13 @@ app.use(Session({
 
 
 app.use((req,res,next) => {
-    console.log("-----------------log route", req.path)
+    console.log("-----------------log route", req.path);
+    // HARDCODED: PLEASE CHANGE
+    if (!req.session.userData) {
+      req.session.userData = {};
+      req.session.userData.email = "tic@email.com";
+      req.session.userData.avatar = "img/computer-icon.png"
+    }
     next();
 })
 

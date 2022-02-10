@@ -58,7 +58,7 @@ exports.delete_an_incidence = function (req, res) {
 };
 
 exports.generate_pdf = function (req, res) {
-  var JSZip = require('jszip');
+  var PizZip = require('pizzip');
   var Docxtemplater = require('docxtemplater');
 
   var fs = require('fs');
@@ -67,7 +67,7 @@ exports.generate_pdf = function (req, res) {
   // Load the docx file as a binary
   var content = fs.readFileSync(path.resolve(__dirname, 'input.docx'), 'binary');
 
-  var zip = new JSZip(content);
+  var zip = new PizZip(content);
   var doc = new Docxtemplater();
   doc.loadZip(zip);
 
