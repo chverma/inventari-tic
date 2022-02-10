@@ -8,8 +8,8 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `db_gestor_incidencies` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `db_gestor_incidencies`;
+CREATE DATABASE IF NOT EXISTS `db_inventari_tic` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE `db_inventari_tic`;
 
 CREATE TABLE `administrators` (
   `admin_id` int(11) NOT NULL,
