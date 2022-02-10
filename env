@@ -1,7 +1,4 @@
 MYSQL_USER=root
 MYSQL_PASSWD=my-secret-pw
-MYSQL_DB=db_gestor_incidencies
+MYSQL_DB=db_inventari_tic
 MYSQL_HOST=mysql
-GOOGLE_CLIENT_ID=replace
-GOOGLE_CLIENT_SECRET=replace
-GOOGLE_REDIRECT_URL=replace
