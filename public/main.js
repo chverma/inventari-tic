@@ -18,7 +18,7 @@ function errorMessage(msg) {
 
 /* Index page controller */
 function indexController ($scope, $http) {
-  $scope.isCreateInventroy = false;
+  $scope.isCreateInventory = false;
   $scope.isListInventory = false;
   $scope.isCreateLocation = false;
   $scope.isListLocation = false;
@@ -37,8 +37,8 @@ function navBarController ($scope, $http) {
     });
 }
 
-/* Controller for create entry */
-function createEntryController ($scope, $http) {
+/* Controller for create inventory entry */
+function createInventoryController ($scope, $http) {
   // Set navbar menu option active (in use)
   $scope.isCreate = true;
   $scope.isList = false;
@@ -88,7 +88,7 @@ function createEntryController ($scope, $http) {
   };
 }
 
-/* Controller to get entry: Returns one entry by id */
+/* Detail inventory entry controller: Returns one entry by id */
 function getDetailController ($scope, $http, $location) {
   $scope.isCreate = false;
   $scope.isList = false;
@@ -178,7 +178,7 @@ function getDetailController ($scope, $http, $location) {
   }
 }
 
-/* Controller to get all entries: Returns all entries */
+/* List inventory entries controller: Returns all entries */
 function getAllController ($scope, $http) {
   // Set navbar active
   $scope.isCreate = false;
@@ -202,6 +202,43 @@ function getAllController ($scope, $http) {
     .error(function (data) {
       console.log('Error:' + data);
       errorMessage('Incidència no borrada. Ha ocorregut un error.')
+    });
+  };
+}
+
+/* Controller for create location entry */
+function createLocationController ($scope, $http) {
+  // Set navbar menu option active (in use)
+  $scope.isCreateInventory = false;
+  $scope.isListInventory = false;
+  $scope.isCreateLocation = true;
+  $scope.isListLocation = false;
+
+  $scope.formData = {}
+
+  // When new location entry is created, send it to the backend API
+  $scope.createLocation = function () {
+    $http.post('/location', $scope.formData)
+    .success(function (data) {
+      //$scope.formData = {};
+      $scope.location = data;
+      console.log("*********DATA")
+      console.log(data)
+      if (data.code) {
+        errorMessage('Ha ocorregut un error al crear el lloc.' + data.sqlMessage)
+      } else {
+        successMessage('Entrada de lloc creada!');
+        setTimeout(function (){ window.location.assign('/detallLloc.html?location_id=' + data.location_id)}, 2000);
+      }
+    })
+    .error(function (data) {
+      console.log(data)
+      if (data.error) {
+        data = ": " + data.message.sqlMessage;
+      } else {
+        data = "";
+      }
+      errorMessage('Ha ocorregut un error al crear l\'entrada de lloc' + data)
     });
   };
 }

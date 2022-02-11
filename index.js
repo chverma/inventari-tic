@@ -42,12 +42,11 @@ var routes = require('./app/routes/routes'); // importing route
 routes(app); // register the routes
 var incidenceRoutes = require('./app/routes/routesIncidence'); // importing route
 incidenceRoutes(app);
-var faultRoutes = require('./app/routes/routesFaults'); // importing route
-faultRoutes(app);
+var locationRoutes = require('./app/routes/routesLocation'); // importing route
+locationRoutes(app);
 var userRoutes = require('./app/routes/routesUser');
 userRoutes(app);
-var proposalsRoutes = require('./app/routes/routesProposals');
-proposalsRoutes(app);
+
 
 // Listen & run server
 app.listen(port, function () {
