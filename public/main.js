@@ -1,28 +1,9 @@
-var appModule = angular.module('angularIncidencies', []);
+var appModule = angular.module('angularTIC', []);
 appModule.config(['$locationProvider', function ($locationProvider) {
   $locationProvider.html5Mode(true);
 }]);
 
-function formatDate (strDate) {
-  var dateArr = strDate.split(' ');
-  var date = dateArr[0].split('-');
-  var dateObj = date[2] + '-' + date[1] + '-' + date[0];
-  if (dateArr.length === 2) {
-    dateObj += ' ' + dateArr[1] + ':00';
-  }
-  return dateObj;
-}
-
-function parseDate(date, isTime) {
-  var newDate = new Date(date);
-  var str_date = newDate.getDate() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getFullYear();
-  str_date = str_date.replace(/\b(\d{1})\b/g, '0$1');
-  if (isTime) {
-    str_date += ' ' + newDate.getHours() + ':' + newDate.getMinutes();
-  }
-  return str_date;
-}
-
+/* Auxiliar methods */
 function successMessage(msg) {
     $('.alert-success').css("display", "block")
     $('#success-message').text(msg)
@@ -34,24 +15,17 @@ function errorMessage(msg) {
     $('#error-message').text(msg)
     setTimeout(function(){ $('.alert-danger').css("display", "none"); }, 10000);
 }
-function createIncidenceController ($scope, $http) {
-  // Set navbar active
+
+/* Controller for create entry */
+function createEntryController ($scope, $http) {
+  // Set navbar menu option active (in use)
   $scope.isCreate = true;
   $scope.isList = false;
 
-  // Get the faults
-  $http.get('/faults/')
+  // Get all locations
+  $http.get('/location/')
   .success(function (data) {
-    $scope.faults = data;
-  })
-  .error(function (data) {
-    console.log('Error: ', data);
-  });
-
-  // Get the proposals
-  $http.get('/proposals')
-  .success(function (data) {
-    $scope.proposals = data;
+    $scope.location = data;
   })
   .error(function (data) {
     console.log('Error: ', data);
@@ -60,33 +34,25 @@ function createIncidenceController ($scope, $http) {
   $scope.formData = {}
   $http.get('/user')
   .success(function (data) {
-    $scope.formData.prof_nom = data.name;
-    $scope.formData.prof_cog1 = data.firstFamilyName;
-    $scope.formData.prof_cog2 = data.secondFamilyName;
+    $scope.formData.email = data.email;
   })
   .error(function (data) {
     console.log('Error: ', data);
   });
 
-  // When new incidence is created, send it to the backend API
+  // When new entry is created, send it to the backend API
   $scope.createIncidence = function () {
-    $scope.formData.data = formatDate($('#dataihora').val());
-    if ($('#dia_com_pares').val() === '') {
-      $scope.formData.dia_com_pares = undefined;
-    } else {
-      $scope.formData.dia_com_pares = formatDate($('#dia_com_pares').val());
-    }
-    $http.post('/incidences', $scope.formData)
+    $http.post('/inventory', $scope.formData)
     .success(function (data) {
       //$scope.formData = {};
-      $scope.incidences = data;
+      $scope.inventory = data;
       console.log("*********DATA")
       console.log(data)
       if (data.code) {
-        errorMessage('Ha ocorregut un error al crear l\'incidència.' + data.sqlMessage)
+        errorMessage('Ha ocorregut un error al crear l\'entrada d\'inventari.' + data.sqlMessage)
       } else {
-        successMessage('Incidència creada!');
-        setTimeout(function (){ window.location.assign('/detall.html?incidence_id=' + data.incidence_id)}, 2000);
+        successMessage('Entrada d\'inventari creada!');
+        setTimeout(function (){ window.location.assign('/detall.html?inventory_id=' + data.inventory_id)}, 2000);
       }
     })
     .error(function (data) {
@@ -96,11 +62,12 @@ function createIncidenceController ($scope, $http) {
       } else {
         data = "";
       }
-      errorMessage('Ha ocorregut un error al crear l\'incidència' + data)
+      errorMessage('Ha ocorregut un error al crear l\'entrada d\'inventari' + data)
     });
   };
 }
-// Returns one incidence by id
+
+/* Controller to get entry: Returns one entry by id */
 function getDetailController ($scope, $http, $location) {
   $scope.isCreate = false;
   $scope.isList = false;
@@ -190,7 +157,7 @@ function getDetailController ($scope, $http, $location) {
   }
 }
 
-// Returns all the incidences
+/* Controller to get all entries: Returns all entries */
 function getAllController ($scope, $http) {
   // Set navbar active
   $scope.isCreate = false;
@@ -218,12 +185,13 @@ function getAllController ($scope, $http) {
   };
 }
 
+/* Index page controller */
 function indexController ($scope, $http) {
   $scope.isCreate = false;
   $scope.isList = false;
 }
 
-// Returns all the incidences
+/* Navbar controller */
 function navBarController ($scope, $http) {
     $http.get('/user')
     .success(function (data) {
