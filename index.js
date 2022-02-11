@@ -16,13 +16,13 @@ app.use(Session({
 }));
 
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
     console.log("-----------------log route", req.path);
     // HARDCODED: PLEASE CHANGE
     if (!req.session.userData) {
-      req.session.userData = {};
-      req.session.userData.email = "tic@email.com";
-      req.session.userData.avatar = "img/computer-icon.png"
+        req.session.userData = {};
+        req.session.userData.email = "tic@email.com";
+        req.session.userData.avatar = "img/computer-icon.png"
     }
     next();
 })
@@ -32,16 +32,14 @@ app.use((req,res,next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Configure bodyParser
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.raw({limit: '50mb'}));
-app.use(bodyParser.text({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.raw({ limit: '50mb' }));
+app.use(bodyParser.text({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
-var routes = require('./app/routes/routes'); // importing route
-routes(app); // register the routes
-var incidenceRoutes = require('./app/routes/routesIncidence'); // importing route
-incidenceRoutes(app);
+var incidenceInventory = require('./app/routes/routesInventory'); // importing route
+incidenceInventory(app);
 var locationRoutes = require('./app/routes/routesLocation'); // importing route
 locationRoutes(app);
 var userRoutes = require('./app/routes/routesUser');
@@ -49,6 +47,6 @@ userRoutes(app);
 
 
 // Listen & run server
-app.listen(port, function () {
-  console.log('App listening on port 8080');
+app.listen(port, function() {
+    console.log('App listening on port 8080');
 });
