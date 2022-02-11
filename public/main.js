@@ -16,6 +16,27 @@ function errorMessage(msg) {
     setTimeout(function(){ $('.alert-danger').css("display", "none"); }, 10000);
 }
 
+/* Index page controller */
+function indexController ($scope, $http) {
+  $scope.isCreateInventroy = false;
+  $scope.isListInventory = false;
+  $scope.isCreateLocation = false;
+  $scope.isListLocation = false;
+}
+
+/* Navbar controller */
+function navBarController ($scope, $http) {
+    $http.get('/user')
+    .success(function (data) {
+        console.log(data)
+        $scope.avatarImg = data.avatar;
+        $scope.email = data.email;
+    })
+    .error(function (data) {
+        console.log('Error: ' + data);
+    });
+}
+
 /* Controller for create entry */
 function createEntryController ($scope, $http) {
   // Set navbar menu option active (in use)
@@ -183,23 +204,4 @@ function getAllController ($scope, $http) {
       errorMessage('Incidència no borrada. Ha ocorregut un error.')
     });
   };
-}
-
-/* Index page controller */
-function indexController ($scope, $http) {
-  $scope.isCreate = false;
-  $scope.isList = false;
-}
-
-/* Navbar controller */
-function navBarController ($scope, $http) {
-    $http.get('/user')
-    .success(function (data) {
-        console.log(data)
-        $scope.avatarImg = data.avatar;
-        $scope.email = data.email;
-    })
-    .error(function (data) {
-        console.log('Error: ' + data);
-    });
 }
