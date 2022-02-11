@@ -37,32 +37,37 @@ function navBarController($scope, $http) {
         });
 }
 
-/* Controller for create inventory entry */
+/**************************************
+ * Inventory
+ * 
+ **************************************/
 function createInventoryController($scope, $http) {
     // Set navbar menu option active (in use)
-    $scope.isCreate = true;
-    $scope.isList = false;
+    $scope.isCreateInventory = true;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = false;
+    $scope.isListLocation = false;
 
     // Get all locations
     $http.get('/location/')
         .success(function(data) {
-            $scope.location = data;
+            $scope.locations = data;
         })
         .error(function(data) {
             console.log('Error: ', data);
         });
 
-    $scope.formData = {}
-    $http.get('/user')
+    // Get all types
+    $http.get('/type')
         .success(function(data) {
-            $scope.formData.email = data.email;
+            $scope.types = data;
         })
         .error(function(data) {
             console.log('Error: ', data);
         });
 
     // When new entry is created, send it to the backend API
-    $scope.createIncidence = function() {
+    $scope.createInventory = function() {
         $http.post('/inventory', $scope.formData)
             .success(function(data) {
                 //$scope.formData = {};
@@ -73,7 +78,7 @@ function createInventoryController($scope, $http) {
                     errorMessage('Ha ocorregut un error al crear l\'entrada d\'inventari.' + data.sqlMessage)
                 } else {
                     successMessage('Entrada d\'inventari creada!');
-                    setTimeout(function() { window.location.assign('/detall.html?inventory_id=' + data.inventory_id) }, 2000);
+                    setTimeout(function() { window.location.assign('/detallInventari.html?inventory_id=' + data.inventory_id) }, 2000);
                 }
             })
             .error(function(data) {
@@ -89,67 +94,48 @@ function createInventoryController($scope, $http) {
 }
 
 /* Detail inventory entry controller: Returns one entry by id */
-function getDetailController($scope, $http, $location) {
-    $scope.isCreate = false;
-    $scope.isList = false;
+function getDetailInventoryController($scope, $http, $location) {
+    // Set navbar menu option active (in use)
+    $scope.isCreateInventory = false;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = false;
+    $scope.isListLocation = false;
 
     $scope.formData = {};
     $scope.parameters = $location.search();
-    // Get the faults
-    $http.get('/faults/')
+    // Get the types
+    $http.get('/type/')
         .success(function(data) {
-            $scope.faults = data;
+            $scope.types = data;
         })
         .error(function(data) {
             console.log('Error: ' + data);
         });
 
-    // Get the proposals
-    $http.get('/proposals')
+    // Get the locations
+    $http.get('/location')
         .success(function(data) {
-            $scope.proposals = data;
+            $scope.locations = data;
         })
         .error(function(data) {
             console.log('Error: ', data);
         });
 
-    // When the page is loadead, get from the API the incidences
-    $http.get('/incidences/' + $scope.parameters.incidence_id)
+    // When the page is loadead, get from the API the inventory
+    $http.get('/inventory/' + $scope.parameters.inventory_id)
         .success(function(data) {
             $scope.formData = data[0];
-            //$('#dataihora').val(parseDate($scope.formData.data, true));
-            // http://eonasdan.github.io/bootstrap-datetimepicker/#view-mode
-            var dateTime1 = $('#datetimepicker1').datetimepicker({
-                locale: 'ca',
-                format: 'DD-MM-YYYY HH:mm',
-                defaultDate: new Date($scope.formData.data),
-            });
-
-            // Date Picker for dia_com_pares
-            var dateTime = $('#datetimepicker2').datetimepicker({
-                locale: 'ca',
-                format: 'DD-MM-YYYY',
-                defaultDate: new Date($scope.formData.dia_com_pares),
-            });
-
-            //$('#dia_com_pares').val(parseDate($scope.formData.dia_com_pares, false));
         })
         .error(function(data) {
             console.log('Error: ' + data);
             errorMessage('Ha ocorregut un error. ' + data)
         });
 
-    $scope.modifyIncidence = function() {
-        $scope.formData.data = formatDate($('#dataihora').val());
-        if ($('#dia_com_pares').val() === '') {
-            $scope.formData.dia_com_pares = undefined;
-        } else {
-            $scope.formData.dia_com_pares = formatDate($('#dia_com_pares').val());
-        }
-        $http.put('/incidences/' + $scope.formData.incidence_id, $scope.formData)
+    $scope.modifyInventory = function() {
+        $http.put('/inventory/' + $scope.formData.inventory_id, $scope.formData)
             .success(function(data) {
                 //$scope.formData = {};
-                $scope.incidences = data;
+                $scope.inventory = data;
                 successMessage('Modificat correctament')
             })
             .error(function(data) {
@@ -161,15 +147,15 @@ function getDetailController($scope, $http, $location) {
     // Delete an incidence
     $scope.deleteIncidence = function() {
         var id = $scope.formData.incidence_id;
-        $http.delete('/incidences/' + id)
+        $http.delete('/inventory/' + id)
             .success(function(data) {
-                $scope.incidences = data;
-                successMessage('Incidència borrada correctament.')
-                setTimeout(function() { window.location.assign('/consultar.html') }, 2000)
+                $scope.inventory = data;
+                successMessage('Entrada d\'inventori borrada correctament.')
+                setTimeout(function() { window.location.assign('/consultarInventari.html') }, 2000)
             })
             .error(function(data) {
                 console.log('Error:' + data);
-                errorMessage('Incidència no borrada. Ha ocorregut un error.')
+                errorMessage('Entrada d\'inventori no borrada. Ha ocorregut un error.')
             });
     };
 
@@ -180,9 +166,12 @@ function getDetailController($scope, $http, $location) {
 
 /* List inventory entries controller: Returns all entries */
 function getAllController($scope, $http) {
-    // Set navbar active
-    $scope.isCreate = false;
-    $scope.isList = true;
+    // Set navbar menu option active (in use)
+    $scope.isCreateInventory = false;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = true;
+    $scope.isListLocation = false;
+
     // When the page is loadead, get from the API the incidences
     $http.get('/incidences')
         .success(function(data) {

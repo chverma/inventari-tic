@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `observacions` varchar(400) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type_id` int(11) NOT NULL,
-  `location_id` int(11) DEFAULT NULL,
+  `location_id` int(11) NOT NULL,
   FOREIGN KEY(`location_id`) REFERENCES `location`(`location_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci;
 

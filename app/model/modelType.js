@@ -3,11 +3,11 @@ var sql = require('./db.js');
 
 // Type object constructor
 var Type = function(type) {
-    this.descripcio = type.aula;
+    this.descripcio = type.descripcio;
 };
 
 Type.createType = function(newType, result) {
-    sql.query('INSERT INTO type set ?', newType, function(err, res) {
+    sql.query('INSERT INTO types set ?', newType, function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(err, null);
@@ -19,7 +19,7 @@ Type.createType = function(newType, result) {
 };
 
 Type.getTypeById = function(typeId, result) {
-    sql.query('Select * from type where type_id = ? ', typeId, function(err, res) {
+    sql.query('Select * from types where type_id = ? ', typeId, function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(err, null);
@@ -30,7 +30,7 @@ Type.getTypeById = function(typeId, result) {
 };
 
 Type.getAllType = function(result) {
-    sql.query('Select * from type', function(err, res) {
+    sql.query('Select * from types', function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(null, err);
@@ -41,7 +41,7 @@ Type.getAllType = function(result) {
 };
 
 Type.updateById = function(id, type, result) {
-    sql.query('UPDATE type SET ? WHERE type_id = ?', [type, id], function(err, res) {
+    sql.query('UPDATE types SET ? WHERE type_id = ?', [type, id], function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(null, err);
@@ -52,7 +52,7 @@ Type.updateById = function(id, type, result) {
 };
 
 Type.removeById = function(id, result) {
-    sql.query('DELETE FROM type WHERE type_id = ?', [id], function(err, res) {
+    sql.query('DELETE FROM types WHERE type_id = ?', [id], function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(null, err);

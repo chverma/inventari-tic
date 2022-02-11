@@ -38,10 +38,12 @@ app.use(bodyParser.text({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
-var incidenceInventory = require('./app/routes/routesInventory'); // importing route
+var incidenceInventory = require('./app/routes/routesInventory');
 incidenceInventory(app);
-var locationRoutes = require('./app/routes/routesLocation'); // importing route
+var locationRoutes = require('./app/routes/routesLocation');
 locationRoutes(app);
+var typeRoutes = require('./app/routes/routesType');
+typeRoutes(app);
 var userRoutes = require('./app/routes/routesUser');
 userRoutes(app);
 

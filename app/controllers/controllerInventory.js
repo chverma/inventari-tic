@@ -13,7 +13,6 @@ exports.list_all_inventory = function(req, res, next) {
 };
 
 exports.create_an_inventory = function(req, res) {
-    req.body.email = req.session.userData.email;
     var newInventory = new Inventory(req.body);
 
     // handles null error
