@@ -1,54 +1,48 @@
 <!doctype html>
-<html lang="ca" ng-app="angularIncidencies">
+<html lang="ca" ng-app="angularTIC">
+
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Incidències</title>
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
 </head>
-<body ng-controller="getAllController">
-  <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav> 
-	<div class="container">
-    <!--Cabecera-->
-      <div class="page-header">
-        	<h1>Número d'incidències <span class="label label-info">{{ incidences.length }}</span></h1>
+
+<body ng-controller="getAllLocationController">
+    <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav>
+    <div class="container">
+        <!--Cabecera-->
+        <div class="page-header">
+            <h1>Número de llocs <span class="label label-info">{{ location.length }}</span></h1>
         </div>
         <!--Lista de Todos-->
         <div id="todo-list" class="row">
             <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Alumne/a</th>
-                  <th scope="col">Professor/a</th>
-                  <th scope="col">Data</th>
-                  <th scope="col">Hora</th>
-                  <th scope="col">Grup</th>
-                  <th scope="col">Assignatura</th>
-                  <th scope="col">Opcions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="i in incidences">
-                  <td>{{ i.al_nom }} {{ i.al_cog1 }} {{ i.al_cog2 }}</td>
-                  <td>{{ i.prof_nom }} {{ i.prof_cog1 }} {{ i.prof_cog2 }}</td>
-                  <td ng-bind="i.data | date:'dd/MM/yyyy'"></td>
-                  <td ng-bind="i.data | date:'HH:mm'"></td>
-                  <td>{{ i.grup }}</td>
-                  <td>{{ i.assignatura }}</td>
-                  <td>
-                    <a ng-href="/detall.html?incidence_id={{i.incidence_id}}" target="_self" class="glyphicon glyphicon-eye-open"></a>
-                    <a ng-href="/incidences/generate/{{i.incidence_id}}" target="_self" class="glyphicon glyphicon-download-alt"></a>
-                    <a ng-click="deleteIncidence(i.incidence_id)" target="_self" class="glyphicon glyphicon-remove-circle"></a>
-                  </td>
-                </tr>
-              <tbody>
+                <thead>
+                    <tr>
+                        <th scope="col">Aula</th>
+                        <th scope="col">Observacions</th>
+                        <th scope="col">Acció</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in location">
+                        <td>{{ i.aula }}</td>
+                        <td>{{ i.observacions }}</td>
+                        <td>
+                            <a ng-href="/detallLloc.html?location_id={{i.location_id}}" target="_self" class="glyphicon glyphicon-eye-open"></a>
+                            <a ng-click="deleteLocation(i.location_id)" target="_self" class="glyphicon glyphicon-remove-circle"></a>
+                        </td>
+                    </tr>
+                    <tbody>
             </table>
-         </div>
+        </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>

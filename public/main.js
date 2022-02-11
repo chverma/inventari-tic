@@ -300,3 +300,33 @@ function getLocationController($scope, $http, $location) {
         window.history.back();
     }
 }
+
+/* List all location entries controller: Returns all entries */
+function getAllLocationController($scope, $http) {
+    // Set navbar menu option active (in use)
+    $scope.isCreateInventory = false;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = false;
+    $scope.isListLocation = false;
+
+    // When the page is loadead, get from the API the location
+    $http.get('/location')
+        .success(function(data) {
+            $scope.location = data;
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    // Delete a location
+    $scope.deleteLocation = function(id) {
+        $http.delete('/location/' + id)
+            .success(function(data) {
+                location.reload();
+            })
+            .error(function(data) {
+                console.log('Error:' + data);
+                errorMessage('Lloc no borrat. Ha ocorregut un error.')
+            });
+    };
+}
