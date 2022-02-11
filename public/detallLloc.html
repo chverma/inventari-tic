@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ca" ng-app="angularIncidencies">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Incidències</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+</head>
+<body ng-controller="getDetailController">
+    <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav> 
+    <div class="container">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong> <span id="error-message">Better check yourself, you're not looking too good.</span>
+        </div>
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <strong>Perfecte!</strong> <span id="success-message">Better check yourself, you're not looking too good.</span>
+        </div>
+    <!--Cabecera-->
+    <div class="page-header">
+      <h1>Detall d'incidència</h1>
+    </div>
+        <!--Lista de Todos-->
+        <form>
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-6 panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>Nom alumne/a:</label>
+                                <input type="text" class="text-center form-control" placeholder="Nom alumne" ng-model="formData.al_nom"  required>
+                            </div>
+                            <div class="form-group">
+                                <label>Cognoms alumne/a:</label>
+                                <input type="text" class="text-center form-control" placeholder="1er cognom alumne/a" ng-model="formData.al_cog1"  required>
+                                <br>
+                                <input type="text" class="text-center form-control" placeholder="2on cognom alumne/a" ng-model="formData.al_cog2"  required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>Nom professor</label>
+                                <input type="text" class="text-center form-control" placeholder="Nom professor/a" ng-model="formData.prof_nom"  required>
+                            </div>
+                            <div class="form-group">
+                                <label>Cognoms professor/a:</label>
+                                <input type="text" class="text-center form-control" placeholder="1er cognom professor/a" ng-model="formData.prof_cog1"  required>
+                                <br>
+                                <input type="text" class="text-center form-control" placeholder="2on cognom professor/a" ng-model="formData.prof_cog2"  required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label>Ha actuat greument perjudicant la convivència en el centre al:</label>
+                                <select name="repeatSelect" class="form-control" id="faultsSelect" ng-model="formData.motiu" ng-options="fault.falta_id as fault.descripcio for (key, fault) in faults" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label>Data</label>
+                                <div id="datetimepicker1" class="input-group date">
+                                    <input id="dataihora" class="text-center form-control" data-format="dd-MM-yyyy hh:mm" type="text"  required />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                              </div>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>Grup</label>
+                                <input type="text" class="text-center form-control" placeholder="Grup al que pertany l'alumne" ng-model="formData.grup"  required />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>Assignatura</label>
+                                <input type="text" class="text-center form-control" placeholder="Assignatura" ng-model="formData.assignatura"  required>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>Data comunicació pares i mares</label>
+                                <div id="datetimepicker2" class="input-group date">
+                                    <input id="dia_com_pares" class="text-center form-control" type="text" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label>Proposta:</label>
+                                <select name="repeatSelect" class="form-control" id="proposalSelect" ng-model="formData.proposal_id" ng-options="proposal.proposal_id as proposal.descripcio for (key, proposal) in proposals" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row panel panel-default">
+                    <div class="col-md-12 form-group panel-body">
+                        <label>Comentaris</label>
+                        <textarea name="Text1" cols="40" rows="5" class="text-center form-control" placeholder="Comentaris" ng-model="formData.comentaris"></textarea>
+                    </div>
+                </div>
+
+                <div class="row panel panel-default">
+                    <div class="col-md-12 form-group panel-body">
+                        <label>Observacions</label>
+                        <textarea name="Text1" cols="40" rows="5" class="text-center form-control" placeholder="Observacions" ng-model="formData.observacions"></textarea>
+                    </div>
+                </div>
+
+                <div class="row col-md-12">
+                    <a role="button" class="btn btn-success btn-lg" target="_self" ng-href="/incidences/generate/{{formData.incidence_id}}">PDF</a>
+                    <button class="btn btn-primary btn-lg" ng-click="modifyIncidence()">Modificar</button>
+                    <button class="btn btn-danger btn-lg" ng-click="deleteIncidence()">Eliminar</button>
+                    <a role="button" class="btn btn-info btn-lg" target="_self" ng-href="/consultar.html">Tornar</a>
+                </div>
+            </div>
+          </form>
+    </div>
+    <div class="row col-md-12" style="padding-bottom: 20px;">
+    </div>
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/moment-with-locales.js"></script>
+    <script src="js/bootstrap-datetimepicker.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="main.js"></script>
+    <script type="text/javascript">
+      /*$(document).ready(function(){
+        $('#datetimepicker1').datetimepicker({
+          language: 'ca-ES'
+        });
+        $('#datetimepicker2').datetimepicker({
+          language: 'ca-ES'
+        });
+      });*/
+    </script>
+</body>
+</html>
