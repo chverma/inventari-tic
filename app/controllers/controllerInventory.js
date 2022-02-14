@@ -1,5 +1,6 @@
 'use strict';
-
+const https = require('https');
+const cheerio = require("cheerio");
 var Inventory = require('../model/modelInventory.js');
 var Type = require('../model/modelType.js');
 var Location = require('../model/modelLocation.js');
@@ -19,13 +20,62 @@ exports.create_an_inventory = function(req, res) {
     if (!newInventory) {
         res.status(400).send({ error: true, message: 'Please provide inventory' });
     } else {
-        Inventory.createInventory(newInventory, function(err, inventory) {
-            if (err) {
-                res.status(400).json({ error: true, message: err });
-            } else {
-                res.json(inventory);
+        if (newInventory.descripcio.startsWith("http")) {
+            var url = newInventory.descripcio.replace("https://", "").replace("http://", "").split("/");
+            var path = '';
+            for (var i = 1; i < url.length; i++) {
+                path += '/' + url[i];
             }
-        });
+            console.log(path)
+            const options = {
+                hostname: url[0],
+                port: 443,
+                path: path,
+                method: 'GET'
+            }
+
+            const request = https.request(options, response => {
+                console.log(`statusCode: ${response.statusCode}`)
+
+                var body = '';
+                var i = 0;
+                response.on('data', function(chunk) {
+                    i++;
+                    body += chunk;
+                });
+                response.on('end', function() {
+
+                    //console.log(body);
+                    const $ = cheerio.load(body);
+                    newInventory.descripcio = '';
+                    newInventory.descripcio += $('h2').text();
+                    newInventory.descripcio += '\n';
+                    newInventory.descripcio += $('div.row:nth-child(3) > div:nth-child(1) > details:nth-child(3) > ul:nth-child(3) > li:nth-child(1)').text();
+
+                    Inventory.createInventory(newInventory, function(err, inventory) {
+                        if (err) {
+                            res.status(400).json({ error: true, message: err });
+                        } else {
+                            res.json(inventory);
+                        }
+                    });
+                });
+            })
+
+            request.on('error', error => {
+                console.error(error)
+            })
+
+            request.end()
+        } else {
+            Inventory.createInventory(newInventory, function(err, inventory) {
+                if (err) {
+                    res.status(400).json({ error: true, message: err });
+                } else {
+                    res.json(inventory);
+                }
+            });
+        }
     }
 };
 
