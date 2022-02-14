@@ -1,16 +1,16 @@
 .alert {
     position: fixed;
-    top: 5px;
+    top: 80px;
     right: 5px;
-    z-index:20;
+    z-index: 20;
 }
 
 .alert-danger {
-    display:none;
+    display: none;
 }
 
 .alert-success {
-    display:none;
+    display: none;
 }
 
 #dropdown_user {
@@ -18,4 +18,6 @@
     padding-bottom: 5px;
 }
 
-body { padding-top: 70px; }
+body {
+    padding-top: 70px;
+}
