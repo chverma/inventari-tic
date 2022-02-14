@@ -34,12 +34,15 @@ Inventory.getInventoryById = function(inventoryId, result) {
     });
 };
 
-Inventory.getAllInventory = function(email, result) {
-    sql.query(`Select * from inventory`, function(err, res) {
+Inventory.getAllInventory = function(result) {
+    sql.query(`Select i.inventory_id, i.num_serie, i.descripcio, i.observacions, i.created_at, loc.aula, t.descripcio as tipus from inventory as i
+     INNER JOIN location as loc ON i.location_id=loc.location_id
+     INNER JOIN types as t ON i.type_id=t.type_id`, function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(null, err);
         } else {
+            console.log(res)
             result(null, res);
         }
     });

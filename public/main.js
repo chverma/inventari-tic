@@ -144,9 +144,9 @@ function getDetailInventoryController($scope, $http, $location) {
             });
     };
 
-    // Delete an incidence
-    $scope.deleteIncidence = function() {
-        var id = $scope.formData.incidence_id;
+    // Delete an inventory
+    $scope.deleteInventory = function() {
+        var id = $scope.formData.inventory_id;
         $http.delete('/inventory/' + id)
             .success(function(data) {
                 $scope.inventory = data;
@@ -155,7 +155,7 @@ function getDetailInventoryController($scope, $http, $location) {
             })
             .error(function(data) {
                 console.log('Error:' + data);
-                errorMessage('Entrada d\'inventori no borrada. Ha ocorregut un error.')
+                errorMessage('Entrada d\'inventari no borrada. Ha ocorregut un error.')
             });
     };
 
@@ -165,17 +165,17 @@ function getDetailInventoryController($scope, $http, $location) {
 }
 
 /* List inventory entries controller: Returns all entries */
-function getAllController($scope, $http) {
+function getAllInventoryController($scope, $http) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
-    $scope.isListInventory = false;
-    $scope.isCreateLocation = true;
+    $scope.isListInventory = true;
+    $scope.isCreateLocation = false;
     $scope.isListLocation = false;
 
     // When the page is loadead, get from the API the incidences
-    $http.get('/incidences')
+    $http.get('/inventory')
         .success(function(data) {
-            $scope.incidences = data;
+            $scope.inventory = data;
             console.log(data);
         })
         .error(function(data) {
@@ -183,14 +183,14 @@ function getAllController($scope, $http) {
         });
 
     // Delete an incidence
-    $scope.deleteIncidence = function(id) {
-        $http.delete('/incidences/' + id)
+    $scope.deleteInventory = function(id) {
+        $http.delete('/inventory/' + id)
             .success(function(data) {
                 location.reload();
             })
             .error(function(data) {
                 console.log('Error:' + data);
-                errorMessage('Incidència no borrada. Ha ocorregut un error.')
+                errorMessage('Entrada d\'inventari no borrada. Ha ocorregut un error.')
             });
     };
 }
@@ -296,7 +296,7 @@ function getAllLocationController($scope, $http) {
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
-    $scope.isListLocation = false;
+    $scope.isListLocation = true;
 
     // When the page is loadead, get from the API the location
     $http.get('/location')
