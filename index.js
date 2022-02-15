@@ -7,6 +7,11 @@ var path = require('path');
 var Session = require('express-session');
 const nocache = require('nocache');
 
+app.use(function(req, res, next) {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use(nocache());
 // Init Session
 app.use(Session({
