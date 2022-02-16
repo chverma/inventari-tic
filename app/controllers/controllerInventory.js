@@ -45,13 +45,13 @@ exports.create_an_inventory = function(req, res) {
                 });
                 response.on('end', function() {
 
-                    //console.log(body);
-                    const $ = cheerio.load(body);
-                    newInventory.descripcio = '';
-                    newInventory.descripcio += $('h2').text();
-                    newInventory.descripcio += '\n';
-                    newInventory.descripcio += $('div.row:nth-child(3) > div:nth-child(1) > details:nth-child(3) > ul:nth-child(3) > li:nth-child(1)').text();
-
+                    if (response.statusCode == 200) {
+                        const $ = cheerio.load(body);
+                        newInventory.descripcio = '';
+                        newInventory.descripcio += $('h2').text();
+                        newInventory.descripcio += '\n';
+                        newInventory.descripcio += $('div.row:nth-child(3) > div:nth-child(1) > details:nth-child(3) > ul:nth-child(3) > li:nth-child(1)').text();
+                    }
                     Inventory.createInventory(newInventory, function(err, inventory) {
                         if (err) {
                             res.status(400).json({ error: true, message: err });
