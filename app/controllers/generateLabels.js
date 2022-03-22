@@ -25,16 +25,30 @@ exports.generateLabels = function(req, res) {
 
     const schemas = [];
     const inputs = [];
+    const position = {
+        "x": 5.45,
+        "y": 3.07
+    };
+    const colHorizontalIncrement = 40;
+    const colVerticalIncrement = 40;
     for (var i = 0; i < 3; i++) {
+        position.x = position.x + i * colHorizontalIncrement;
         for (var j = 0; j < 3; j++) {
+            position.y = position.y + j * colVerticalIncrement;
             let newKey = "qrcode" + i + "-" + j;
-            let newQr = {
-                newKey: qrBase.qrcode
-            }
+            let newQr = {}
+            newQr[newKey] = qrBase.qrcode
+
+            newQr[newKey].position = position;
             schemas.push(newQr);
-            inputs.push({ newKey: "https://labelmake.jp/" });
+            let newInput = {};
+            newInput[newKey] = "https://labelmake.jp/";
+            inputs.push(newInput);
+
         }
     }
+    console.log(schemas)
+    console.log(inputs)
     const template = {
         basePdf: BLANK_PDF,
         schemas: schemas,
