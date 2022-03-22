@@ -31,29 +31,15 @@ const textTypeBase = {
             "x": 32,
             "y": 12
         },
-        "width": 24.15,
+        "width": 60,
         "height": 7,
         "alignment": "left",
-        "fontSize": 13,
+        "fontSize": 12,
         "characterSpacing": 0,
         "lineHeight": 1
     }
 };
-const textNSBase = {
-    "ns": {
-        "type": "text",
-        "position": {
-            "x": 32,
-            "y": 24
-        },
-        "width": 24.15,
-        "height": 7,
-        "alignment": "left",
-        "fontSize": 13,
-        "characterSpacing": 0,
-        "lineHeight": 1
-    }
-}
+
 const logoBase = {
     "logo": {
         "type": "image",
@@ -83,7 +69,7 @@ exports.generateLabels = function (req, res) {
     const schemasInside = {};
     const inputs = [];
     const inputsInside = {};
-    const colHorizontalIncrement = 70;
+    const colHorizontalIncrement = 65;
     const colVerticalIncrement = 30;
 
     for (var i = 0; i < 8; i++) {
@@ -98,7 +84,7 @@ exports.generateLabels = function (req, res) {
             }
             newElement[newQRKey] = new schemaObj(qrBase.qrcode.type, position, qrBase.qrcode.width, qrBase.qrcode.height, qrBase.qrcode.fontSize);
             schemasInside[newQRKey] = newElement[newQRKey];
-            inputsInside[newQRKey] = "https://labelmake.jp/";
+            inputsInside[newQRKey] = "https://http.cat/500";
 
             // Text type
             let newTypeKey = "type" + i + "-" + j;
@@ -118,13 +104,13 @@ exports.generateLabels = function (req, res) {
             }
             newElement[newNSKey] = new schemaObj(textTypeBase.type.type, position, textTypeBase.type.width, textTypeBase.type.height, textTypeBase.type.fontSize);
             schemasInside[newNSKey] = newElement[newNSKey];
-            inputsInside[newNSKey] = "NS: 151515151";
+            inputsInside[newNSKey] = "NS: 12345678910";
 
             // Logo image
             let newLogoKey = "logo" + i + "-" + j;
             position = {
                 "x": 55 + j * colHorizontalIncrement,
-                "y": 14 + i * colVerticalIncrement
+                "y": 8.5 + i * colVerticalIncrement
             }
             newElement[newLogoKey] = new schemaObj(logoBase.logo.type, position, logoBase.logo.width, logoBase.logo.height, logoBase.logo.fontSize);
             schemasInside[newLogoKey] = newElement[newLogoKey];
