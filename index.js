@@ -8,6 +8,22 @@ var Session = require('express-session');
 const nocache = require('nocache');
 const cors = require('cors');
 
+
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
+if (typeof btoa === 'undefined') {
+    global.btoa = function(str) {
+        return new Buffer(str, 'binary').toString('base64');
+    };
+}
+
+if (typeof atob === 'undefined') {
+    global.atob = function(b64Encoded) {
+        return new Buffer(b64Encoded, 'base64').toString('binary');
+    };
+}
+
+
 app.use(cors())
 app.use(function(req, res, next) {
 
@@ -45,8 +61,8 @@ app.use(bodyParser.text({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
-var incidenceInventory = require('./app/routes/routesInventory');
-incidenceInventory(app);
+var inventoryRoutes = require('./app/routes/routesInventory');
+inventoryRoutes(app);
 var locationRoutes = require('./app/routes/routesLocation');
 locationRoutes(app);
 var typeRoutes = require('./app/routes/routesType');

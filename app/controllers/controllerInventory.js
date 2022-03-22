@@ -4,6 +4,8 @@ const cheerio = require("cheerio");
 var Inventory = require('../model/modelInventory.js');
 var Type = require('../model/modelType.js');
 var Location = require('../model/modelLocation.js');
+var Labels = require('./generateLabels.js');
+
 exports.list_all_inventory = function(req, res, next) {
     Inventory.getAllInventory(function(err, inventory) {
         if (err) {
@@ -214,4 +216,9 @@ exports.generate_pdf = function(req, res) {
             });
         }
     });
+};
+
+exports.generate_labels = function(req, res) {
+    Labels.generateLabels(req, res);
+
 };
