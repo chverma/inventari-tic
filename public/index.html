@@ -2,47 +2,55 @@
 <html lang="ca" ng-app="angularTIC">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Inventari TIC</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventari TIC</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
 </head>
 
 <body ng-controller="indexController">
-  <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav>
-  <div class="container">
-    <div class="row">
-      <div class="jumbotron">
-        <h1>Gestor de l'inventari TIC</h1>
-        <p>Aplicació per a la gestió de la ubicació de l'inventari TIC.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
+    <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav>
+    <div class="container">
         <div class="row">
-          <a href="/consultarInventari.html" class="glyphicon glyphicon-th-list" target="_self"> Llistat de
+            <div class="jumbotron">
+                <h1>Gestor de l'inventari TIC</h1>
+                <p>Aplicació per a la gestió de la ubicació de l'inventari TIC.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <a href="/consultarInventari.html" class="glyphicon glyphicon-th-list" target="_self"> Llistat de
             l'inventari</a>
-        </div>
-        <div class="row">
-          <a href="/crearInventari.html" class="glyphicon glyphicon-plus" target="_self"> Crear entrada a
+                </div>
+                <div class="row">
+                    <a href="/crearInventari.html" class="glyphicon glyphicon-plus" target="_self"> Crear entrada a
             l'inventari</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <a href="/consultarLloc.html" class="glyphicon glyphicon-th-list" target="_self"> Llistat de llocs</a>
+                </div>
+                <div class="row">
+                    <a href="/crearLloc.html" class="glyphicon glyphicon-plus" target="_self"> Crear un lloc</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <a href="/consultarTipus.html" class="glyphicon glyphicon-th-list" target="_self"> Llistat de tipus</a>
+                </div>
+                <div class="row">
+                    <a href="/crearTipus.html" class="glyphicon glyphicon-plus" target="_self"> Crear un tipus</a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="row">
-          <a href="/consultarLloc.html" class="glyphicon glyphicon-th-list" target="_self"> Llistat de llocs</a>
-        </div>
-        <div class="row">
-          <a href="/crearLloc.html" class="glyphicon glyphicon-plus" target="_self"> Crear un lloc</a>
-        </div>
-      </div>
     </div>
-  </div>
-  <script src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script src="js/angular.min.js"></script>
-  <script src="main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>

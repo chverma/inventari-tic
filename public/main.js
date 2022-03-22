@@ -22,6 +22,8 @@ function indexController($scope, $http) {
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
     $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 }
 
 /* Navbar controller */
@@ -47,6 +49,8 @@ function createInventoryController($scope, $http) {
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
     $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 
     // Get all locations
     $http.get('/location/')
@@ -100,6 +104,8 @@ function getDetailInventoryController($scope, $http, $location) {
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
     $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 
     $scope.formData = {};
     $scope.parameters = $location.search();
@@ -171,6 +177,8 @@ function getAllInventoryController($scope, $http) {
     $scope.isListInventory = true;
     $scope.isCreateLocation = false;
     $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 
     // When the page is loadead, get from the API the incidences
     $http.get('/inventory')
@@ -207,6 +215,8 @@ function createLocationController($scope, $http) {
     $scope.isListInventory = false;
     $scope.isCreateLocation = true;
     $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 
     $scope.formData = {}
 
@@ -244,6 +254,8 @@ function getLocationController($scope, $http, $location) {
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
     $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 
     $scope.formData = {};
     $scope.parameters = $location.search();
@@ -297,6 +309,8 @@ function getAllLocationController($scope, $http) {
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
     $scope.isListLocation = true;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
 
     // When the page is loadead, get from the API the location
     $http.get('/location')
@@ -310,6 +324,137 @@ function getAllLocationController($scope, $http) {
     // Delete a location
     $scope.deleteLocation = function(id) {
         $http.delete('/location/' + id)
+            .success(function(data) {
+                location.reload();
+            })
+            .error(function(data) {
+                console.log('Error:' + data);
+                errorMessage('Lloc no borrat. Ha ocorregut un error.')
+            });
+    };
+}
+
+/**************************************
+ * TYPE
+ * 
+ **************************************/
+
+/* Create type entry */
+function createTypeController($scope, $http) {
+    // Set navbar menu option active (in use)
+    $scope.isCreateInventory = false;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = false;
+    $scope.isListLocation = false;
+    $scope.isCreateType = true;
+    $scope.isListType = false;
+
+    $scope.formData = {}
+
+    // When new location entry is created, send it to the backend API
+    $scope.createType = function() {
+        $http.post('/type', $scope.formData)
+            .success(function(data) {
+                //$scope.formData = {};
+                $scope.location = data;
+                console.log("*********DATA")
+                console.log(data)
+                if (data.code) {
+                    errorMessage('Ha ocorregut un error al crear el tipus.' + data.sqlMessage)
+                } else {
+                    successMessage('Entrada de tipus creada!');
+                    setTimeout(function() { window.location.assign('/detallTipus.html?type_id=' + data.type_id) }, 2000);
+                }
+            })
+            .error(function(data) {
+                console.log(data)
+                if (data.error) {
+                    data = ": " + data.message.sqlMessage;
+                } else {
+                    data = "";
+                }
+                errorMessage('Ha ocorregut un error al crear l\'entrada de tipus' + data)
+            });
+    };
+}
+
+/* Get one type */
+function getTypeController($scope, $http, $location) {
+    // Set navbar menu option active (in use)
+    $scope.isCreateInventory = false;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = false;
+    $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = false;
+
+    $scope.formData = {};
+    $scope.parameters = $location.search();
+
+    // When the page is loadead, get from the API the type
+    $http.get('/type/' + $scope.parameters.type_id)
+        .success(function(data) {
+            $scope.formData = data[0];
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+            errorMessage('Ha ocorregut un error. ' + data)
+        });
+
+    $scope.modifyType = function() {
+        $http.put('/type/' + $scope.formData.type_id, $scope.formData)
+            .success(function(data) {
+                $scope.type = data;
+                successMessage('Modificat correctament')
+            })
+            .error(function(data) {
+                console.log('Error:' + data);
+                errorMessage('Error al modificar ' + data)
+            });
+    };
+
+    // Delete type
+    $scope.deleteType = function() {
+        var id = $scope.formData.type_id;
+        $http.delete('/type/' + id)
+            .success(function(data) {
+                $scope.type = data;
+                successMessage('Tipus borrat correctament.')
+                setTimeout(function() { window.location.assign('/consultarTipus.html') }, 2000)
+            })
+            .error(function(data) {
+                console.log('Error:' + data);
+                errorMessage('Lloc no borrat. Ha ocorregut un error.')
+            });
+    };
+
+    $scope.previousPage = function() {
+        window.history.back();
+    }
+}
+
+/* List all type entries controller: Returns all entries */
+function getAllTypeController($scope, $http) {
+    // Set navbar menu option active (in use)
+    $scope.isCreateInventory = false;
+    $scope.isListInventory = false;
+    $scope.isCreateLocation = false;
+    $scope.isListLocation = false;
+    $scope.isCreateType = false;
+    $scope.isListType = true;
+
+    // When the page is loadead, get from the API the type
+    $http.get('/type')
+        .success(function(data) {
+            $scope.type = data;
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    // Delete a type
+    $scope.deleteType = function(id) {
+        $http.delete('/type/' + id)
             .success(function(data) {
                 location.reload();
             })
