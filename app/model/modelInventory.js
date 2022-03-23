@@ -36,7 +36,6 @@ Inventory.getInventoryById = function(inventoryId, result) {
 };
 
 Inventory.getInventoriesByIds = function(inventoriesIds, result) {
-    console.log("inventoriesIds.join(',')", inventoriesIds.join(','))
     sql.query(`Select * from inventory AS i
     INNER JOIN location as loc ON i.location_id=loc.location_id 
     where inventory_id IN (?) `, [inventoriesIds], function(err, res) {
