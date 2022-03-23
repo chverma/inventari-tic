@@ -49,8 +49,21 @@
                     <tbody>
             </table>
         </div>
-        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes</a>
-
+        <div class="row">
+            <div class="col-lg-6">
+              <div class="input-group">
+                <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes</a>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="btnSendFile">Enviar</button>
+                </span>
+                <input type="file" class="form-control">
+              </div>
+            </div>
+          </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

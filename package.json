@@ -15,7 +15,8 @@
     "express-session": "^1.16.1",
     "mysql": "latest",
     "nocache": "^2.0.0",
-    "pizzip": "^3.1.1"
+    "pizzip": "^3.1.1",
+    "xlsx": "^0.18.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

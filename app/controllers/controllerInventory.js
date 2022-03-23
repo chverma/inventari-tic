@@ -7,8 +7,8 @@ var Location = require('../model/modelLocation.js');
 var Labels = require('./generateLabels.js');
 var Promise = require("bluebird");
 
-exports.list_all_inventory = function(req, res, next) {
-    Inventory.getAllInventory(function(err, inventory) {
+exports.list_all_inventory = function (req, res, next) {
+    Inventory.getAllInventory(function (err, inventory) {
         if (err) {
             res.send(err);
         }
@@ -16,7 +16,7 @@ exports.list_all_inventory = function(req, res, next) {
     });
 };
 
-exports.create_an_inventory = function(req, res) {
+exports.create_an_inventory = function (req, res) {
     var newInventory = new Inventory(req.body);
 
     // handles null error
@@ -42,11 +42,11 @@ exports.create_an_inventory = function(req, res) {
 
                 var body = '';
                 var i = 0;
-                response.on('data', function(chunk) {
+                response.on('data', function (chunk) {
                     i++;
                     body += chunk;
                 });
-                response.on('end', function() {
+                response.on('end', function () {
 
                     if (response.statusCode == 200) {
                         const $ = cheerio.load(body);
@@ -55,7 +55,7 @@ exports.create_an_inventory = function(req, res) {
                         newInventory.descripcio += '\n';
                         newInventory.descripcio += $('div.row:nth-child(3) > div:nth-child(1) > details:nth-child(3) > ul:nth-child(3) > li:nth-child(1)').text();
                     }
-                    Inventory.createInventory(newInventory, function(err, inventory) {
+                    Inventory.createInventory(newInventory, function (err, inventory) {
                         if (err) {
                             res.status(400).json({ error: true, message: err });
                         } else {
@@ -71,7 +71,7 @@ exports.create_an_inventory = function(req, res) {
 
             request.end()
         } else {
-            Inventory.createInventory(newInventory, function(err, inventory) {
+            Inventory.createInventory(newInventory, function (err, inventory) {
                 if (err) {
                     res.status(400).json({ error: true, message: err });
                 } else {
@@ -82,8 +82,8 @@ exports.create_an_inventory = function(req, res) {
     }
 };
 
-exports.read_an_inventory = function(req, res) {
-    Inventory.getInventoryById(req.params.inventoryId, function(err, inventory) {
+exports.read_an_inventory = function (req, res) {
+    Inventory.getInventoryById(req.params.inventoryId, function (err, inventory) {
         if (err) {
             res.send(err);
         }
@@ -91,8 +91,8 @@ exports.read_an_inventory = function(req, res) {
     });
 };
 
-exports.update_an_inventory = function(req, res) {
-    Inventory.updateById(req.params.inventoryId, new Inventory(req.body), function(err, inventory) {
+exports.update_an_inventory = function (req, res) {
+    Inventory.updateById(req.params.inventoryId, new Inventory(req.body), function (err, inventory) {
         if (err) {
             res.send(err);
         }
@@ -100,8 +100,8 @@ exports.update_an_inventory = function(req, res) {
     });
 };
 
-exports.delete_an_inventory = function(req, res) {
-    Inventory.removeById(req.params.inventoryId, function(err, inventory) {
+exports.delete_an_inventory = function (req, res) {
+    Inventory.removeById(req.params.inventoryId, function (err, inventory) {
         if (err) {
             res.send(err);
         }
@@ -109,7 +109,7 @@ exports.delete_an_inventory = function(req, res) {
     });
 };
 
-exports.generate_pdf = function(req, res) {
+exports.generate_pdf = function (req, res) {
     var PizZip = require('pizzip');
     var Docxtemplater = require('docxtemplater');
 
@@ -123,17 +123,17 @@ exports.generate_pdf = function(req, res) {
     var doc = new Docxtemplater();
     doc.loadZip(zip);
 
-    Inventory.getInventoryById(req.params.inventoryId, function(err, inventory) {
+    Inventory.getInventoryById(req.params.inventoryId, function (err, inventory) {
         if (err) {
             res.send(err);
         } else {
             inventory = inventory[0];
-            Type.getTypeById(inventory.motiu, function(err, type) {
+            Type.getTypeById(inventory.motiu, function (err, type) {
                 if (err) {
                     res.send(err);
                 } else {
                     inventory.motiu = type[0].descripcio;
-                    Location.getLocationById(inventory.location_id, function(err, location) {
+                    Location.getLocationById(inventory.location_id, function (err, location) {
                         if (err) {
                             res.send(err);
                         } else {
@@ -187,7 +187,7 @@ exports.generate_pdf = function(req, res) {
                                 ND_DEV_SECRET: "3NHVA7MA6HLD6BP1AB63SF0F4G", // you can also set the credentials in the enviroment variables
                                 ENVIRONMENT: "NODE", // required
                                 LAZY_INIT: true // if set to false the WASM engine will be initialized right now, usefull pre-caching (like e.g. for AWS lambda)
-                            }).catch(function(e) {
+                            }).catch(function (e) {
                                 console.error(e);
                             });
 
@@ -219,9 +219,23 @@ exports.generate_pdf = function(req, res) {
     });
 };
 
-exports.generate_labels = function(req, res) {
+exports.generate_labels = function (req, res) {
     let inventory_id_items = JSON.parse(req.params.inventory_items);
     Inventory.getInventoriesByIds(inventory_id_items, (err, inventoryItems) => {
         Labels.generateLabels(inventoryItems, req, res);
+    });
+}
+
+exports.parse_xlsx = function (req, res) {
+    const XLSX = require("xlsx");
+    const formidable = require("formidable");
+    const form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
+        /* grab the first file */
+        const f = Object.entries(files)[0][1];
+        const path = f.filepath;
+        const workbook = XLSX.readFile(path);
+
+        /* DO SOMETHING WITH workbook HERE */
     });
 }
