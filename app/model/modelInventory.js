@@ -5,6 +5,7 @@ var sql = require('./db.js');
 var Inventory = function(inventory) {
     this.num_serie = inventory.num_serie;
     this.descripcio = inventory.descripcio;
+    this.text_etiqueta = inventory.text_etiqueta;
     this.observacions = inventory.observacions;
     this.created_at = new Date();
     this.type_id = inventory.type_id;

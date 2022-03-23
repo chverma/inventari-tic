@@ -50,11 +50,20 @@ exports.generateLabels = function (req, res) {
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
             inputsObj[newObjKey] = "Monitor";
 
+            // Text location
+            newObjKey = "location" + i + "-" + j;
+            position = {
+                "x": 36 + j * colHorizontalIncrement,
+                "y": 21 + i * colVerticalIncrement
+            };
+            schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
+            inputsObj[newObjKey] = "Aula 23";
+
             // Text NS
             newObjKey = "ns" + i + "-" + j;
             position = {
                 "x": 36 + j * colHorizontalIncrement,
-                "y": 24 + i * colVerticalIncrement
+                "y": 27 + i * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
             inputsObj[newObjKey] = "NS: 12345678910";

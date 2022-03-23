@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `location` (
 CREATE TABLE IF NOT EXISTS `inventory` (
   `inventory_id` int(11) AUTO_INCREMENT PRIMARY KEY,
   `num_serie` varchar(150) NOT NULL,
+  `text_etiqueta` varchar(150) DEFAULT NULL,
   `descripcio` varchar(400) DEFAULT NULL,
   `observacions` varchar(400) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

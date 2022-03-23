@@ -50,14 +50,19 @@
                             <select name="typeSelect" class="form-control" id="typeSelect" ng-model="formData.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types" required>
                             </select>
                         </div>
-
+                        
+                        <div class="form-group">
+                            <label>Text etiqueta:</label>
+                            <input type="text" class="form-control" id="typeSelect" ng-model="formData.text_etiqueta" required>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6 panel panel-default">
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Descripció:</label>
-                            <textarea name="Text1" cols="40" rows="8" class="text-center form-control" placeholder="Descripció" ng-model="formData.descripcio"></textarea>
+                            <textarea name="Text1" cols="40" rows="11" class="text-center form-control areatext" placeholder="Descripció" ng-model="formData.descripcio"></textarea>
 
                         </div>
                     </div>
