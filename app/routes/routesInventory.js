@@ -4,7 +4,7 @@ module.exports = function(app) {
     var inventoryList = require('../controllers/controllerInventory');
 
     // todoList Routes
-    app.get('/inventory/generate_labels', inventoryList.generate_labels);
+    app.get('/inventory/generate_labels/:inventory_items', inventoryList.generate_labels);
     app.get('/inventory', inventoryList.list_all_inventory);
     app.post('/inventory', inventoryList.create_an_inventory);
 

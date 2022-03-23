@@ -180,6 +180,9 @@ function getAllInventoryController($scope, $http) {
     $scope.isCreateType = false;
     $scope.isListType = false;
 
+    // Create empty array
+    $scope.itemsToGenerateLabels = [];
+
     // When the page is loadead, get from the API the incidences
     $http.get('/inventory')
         .success(function(data) {
@@ -200,6 +203,10 @@ function getAllInventoryController($scope, $http) {
                 console.log('Error:' + data);
                 errorMessage('Entrada d\'inventari no borrada. Ha ocorregut un error.')
             });
+    };
+    // Add item in order to generate labels
+    $scope.addItemToGenerateLabel = function(id) {
+        $scope.itemsToGenerateLabels.push(id);
     };
 }
 

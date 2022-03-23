@@ -21,6 +21,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
+                        <th scope="col">Generar etiqueta</th>
                         <th scope="col">Núm. sèrie</th>
                         <th scope="col">Descripció</th>
                         <th scope="col">Lloc</th>
@@ -32,6 +33,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="i in inventory">
+                        <td><input type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id)"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.descripcio }}</td>
                         <td>{{ i.aula }}</td>
@@ -47,7 +49,7 @@
                     <tbody>
             </table>
         </div>
-        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels" target="_blank">Etiquetes</a>
+        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes</a>
 
     </div>
     <script src="js/jquery.min.js"></script>

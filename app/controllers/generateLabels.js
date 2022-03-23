@@ -22,62 +22,70 @@ const controllerLabelsDataDir = path.join(__dirname, 'controllerLabelsData');
 const logoFile = path.join(controllerLabelsDataDir, 'logo_iestacio.png');
 const logoImgData = "data:image/png;base64," + fs.readFileSync(logoFile, 'base64');
 
-exports.generateLabels = function (req, res) {
+exports.generateLabels = function(inventory_items, req, res) {
     const schemasObj = {};
     const inputs = [];
     const inputsObj = {};
     const colHorizontalIncrement = 65;
     const colVerticalIncrement = 30;
+    const itemLength = inventory_items.length;
+    let itemCount = 0;
 
-    for (var i = 0; i < 9; i++) {
-        for (var j = 0; j < 3; j++) {
+    let row = 0;
+    let col = 0;
+    while (itemCount < itemLength && row < 9) {
+        col = 0;
+        while (itemCount < itemLength && col < 3) {
             let newObjKey = '';
             // QR
-            newObjKey = "qrcode" + i + "-" + j;
+            newObjKey = "qrcode" + row + "-" + col;
             let position = {
-                "x": 12 + j * colHorizontalIncrement,
-                "y": 12 + i * colVerticalIncrement
+                "x": 12 + col * colHorizontalIncrement,
+                "y": 12 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('qrcode', position, 20, 20, 0);
             inputsObj[newObjKey] = "https://http.cat/500";
 
             // Text type
-            newObjKey = "type" + i + "-" + j;
+            newObjKey = "type" + row + "-" + col;
             position = {
-                "x": 36 + j * colHorizontalIncrement,
-                "y": 12 + i * colVerticalIncrement
+                "x": 36 + col * colHorizontalIncrement,
+                "y": 12 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
             inputsObj[newObjKey] = "Monitor";
 
             // Text location
-            newObjKey = "location" + i + "-" + j;
+            newObjKey = "location" + row + "-" + col;
             position = {
-                "x": 36 + j * colHorizontalIncrement,
-                "y": 21 + i * colVerticalIncrement
+                "x": 36 + col * colHorizontalIncrement,
+                "y": 21 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
             inputsObj[newObjKey] = "Aula 23";
 
             // Text NS
-            newObjKey = "ns" + i + "-" + j;
+            newObjKey = "ns" + row + "-" + col;
             position = {
-                "x": 36 + j * colHorizontalIncrement,
-                "y": 27 + i * colVerticalIncrement
+                "x": 36 + col * colHorizontalIncrement,
+                "y": 27 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
             inputsObj[newObjKey] = "NS: 12345678910";
 
             // Logo image
-            newObjKey = "logo" + i + "-" + j;
+            newObjKey = "logo" + row + "-" + col;
             position = {
-                "x": 55 + j * colHorizontalIncrement,
-                "y": 8.5 + i * colVerticalIncrement
+                "x": 55 + col * colHorizontalIncrement,
+                "y": 8.5 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('image', position, 15, 15, 0);
             inputsObj[newObjKey] = logoImgData;
 
+            col++;
+            itemCount++;
         }
+        row++;
     }
 
     inputs.push(inputsObj);
@@ -91,11 +99,11 @@ exports.generateLabels = function (req, res) {
 
     generate({ template, inputs }).then((pdf) => {
         var readStream = new stream.PassThrough();
-            readStream.end(pdf);
+        readStream.end(pdf);
 
-            res.set('Content-disposition', 'attachment; filename=etiquetes.pdf');
-            res.set('Content-Type', 'application/pdf');
+        res.set('Content-disposition', 'attachment; filename=etiquetes.pdf');
+        res.set('Content-Type', 'application/pdf');
 
-            readStream.pipe(res);
+        readStream.pipe(res);
     });
 }

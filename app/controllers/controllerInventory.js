@@ -5,6 +5,7 @@ var Inventory = require('../model/modelInventory.js');
 var Type = require('../model/modelType.js');
 var Location = require('../model/modelLocation.js');
 var Labels = require('./generateLabels.js');
+var Promise = require("bluebird");
 
 exports.list_all_inventory = function(req, res, next) {
     Inventory.getAllInventory(function(err, inventory) {
@@ -219,6 +220,21 @@ exports.generate_pdf = function(req, res) {
 };
 
 exports.generate_labels = function(req, res) {
-    Labels.generateLabels(req, res);
+    let inventory_items = JSON.parse(req.params.inventory_items);
+    return Promise.map(inventory_items, Inventory.getInventoryById)
+        .then(mapper => {
+            return Promise.reduce(mapper, (total, elem => {
+                total.push(elem);
+                console.log(total)
+                return total;
+            }, []));
+        })
+        .then(total => {
+            console.log("Elem", total)
+            return Labels.generateLabels(total, req, res);
+        });
+}
+
+
 
 };
