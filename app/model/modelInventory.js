@@ -35,6 +35,21 @@ Inventory.getInventoryById = function(inventoryId, result) {
     });
 };
 
+Inventory.getInventoriesByIds = function(inventoriesIds, result) {
+    console.log("inventoriesIds.join(',')", inventoriesIds.join(','))
+    sql.query(`Select * from inventory AS i
+    INNER JOIN location as loc ON i.location_id=loc.location_id 
+    where inventory_id IN (?) `, [inventoriesIds], function(err, res) {
+        if (err) {
+            console.error('error: ', err);
+            result(err, null);
+        } else {
+            console.log("RES",res)
+            result(null, res);
+        }
+    });
+};
+
 Inventory.getAllInventory = function(result) {
     sql.query(`Select i.inventory_id, i.num_serie, i.descripcio, i.observacions, i.created_at, loc.location_id, loc.aula, t.type_id, t.descripcio as tipus from inventory as i
      INNER JOIN location as loc ON i.location_id=loc.location_id
@@ -43,7 +58,6 @@ Inventory.getAllInventory = function(result) {
             console.error('error: ', err);
             result(null, err);
         } else {
-            console.log(res)
             result(null, res);
         }
     });

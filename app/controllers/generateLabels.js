@@ -44,7 +44,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 "y": 12 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('qrcode', position, 20, 20, 0);
-            inputsObj[newObjKey] = "https://http.cat/500";
+            inputsObj[newObjKey] = 'http://inventaritic.com/detallInventari.html?inventory_id=' + inventory_items[itemCount].inventory_id;
 
             // Text type
             newObjKey = "type" + row + "-" + col;
@@ -53,7 +53,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 "y": 12 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
-            inputsObj[newObjKey] = "Monitor";
+            inputsObj[newObjKey] = inventory_items[itemCount].text_etiqueta;
 
             // Text location
             newObjKey = "location" + row + "-" + col;
@@ -62,7 +62,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 "y": 21 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
-            inputsObj[newObjKey] = "Aula 23";
+            inputsObj[newObjKey] = inventory_items[itemCount].aula;
 
             // Text NS
             newObjKey = "ns" + row + "-" + col;
@@ -71,7 +71,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 "y": 27 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
-            inputsObj[newObjKey] = "NS: 12345678910";
+            inputsObj[newObjKey] = 'NS: '+ inventory_items[itemCount].num_serie;
 
             // Logo image
             newObjKey = "logo" + row + "-" + col;

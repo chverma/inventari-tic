@@ -220,21 +220,8 @@ exports.generate_pdf = function(req, res) {
 };
 
 exports.generate_labels = function(req, res) {
-    let inventory_items = JSON.parse(req.params.inventory_items);
-    return Promise.map(inventory_items, Inventory.getInventoryById)
-        .then(mapper => {
-            return Promise.reduce(mapper, (total, elem => {
-                total.push(elem);
-                console.log(total)
-                return total;
-            }, []));
-        })
-        .then(total => {
-            console.log("Elem", total)
-            return Labels.generateLabels(total, req, res);
-        });
+    let inventory_id_items = JSON.parse(req.params.inventory_items);
+    Inventory.getInventoriesByIds(inventory_id_items, (err, inventoryItems) => {
+        Labels.generateLabels(inventoryItems, req, res);
+    });
 }
-
-
-
-};
