@@ -229,13 +229,18 @@ exports.generate_labels = function (req, res) {
 exports.parse_xlsx = function (req, res) {
     const XLSX = require("xlsx");
     const formidable = require("formidable");
+
     const form = new formidable.IncomingForm();
+
     form.parse(req, (err, fields, files) => {
         /* grab the first file */
-        const f = Object.entries(files)[0][1];
-        const path = f.filepath;
-        const workbook = XLSX.readFile(path);
-
+        
+        var f = files[Object.keys(files)[0]];
+  
+        const filepath = f.filepath;
+        const workbook = XLSX.readFile(filepath);
+        console.log('END PARSING')
         /* DO SOMETHING WITH workbook HERE */
     });
+    console.log('END PARSING2')
 }

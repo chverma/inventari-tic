@@ -208,6 +208,24 @@ function getAllInventoryController($scope, $http) {
     $scope.addItemToGenerateLabel = function(id) {
         $scope.itemsToGenerateLabels.push(id);
     };
+
+    // File upload
+    $scope.fileName = undefined;
+    $scope.fileUploadClick = function (event) {
+        event.preventDefault();
+        document.getElementById('fileUpload').click();
+    };
+
+    $scope.onFileSelected = function () {
+        let file = document.getElementById('fileUpload').files[0];
+        //document.getElementById('file-name').value = file.name;
+
+        if (file) {
+            let formFile = new FormData();
+            formFile.append("upload", file);
+            $http.post("/inventory/parse_inventory", formFile);
+        }
+    };
 }
 
 /**************************************

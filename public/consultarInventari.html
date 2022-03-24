@@ -10,7 +10,8 @@
 </head>
 
 <body ng-controller="getAllInventoryController">
-    <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'"></nav>
+    <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'">
+    </nav>
     <div class="container">
         <!--Cabecera-->
         <div class="page-header">
@@ -41,29 +42,34 @@
                         <td>{{ i.observacions }}</td>
                         <td ng-bind="i.created_at | date:'dd/MM/yyyy HH:mm'"></td>
                         <td>
-                            <a ng-href="/detallInventari.html?inventory_id={{i.inventory_id}}" target="_self" class="glyphicon glyphicon-eye-open"></a>
-                            <a ng-href="/inventory/generate/{{i.inventory_id}}" target="_self" class="glyphicon glyphicon-download-alt"></a>
-                            <a ng-href="#" ng-click="deleteInventory(i.inventory_id)" target="_self" class="glyphicon glyphicon-remove-circle"></a>
+                            <a ng-href="/detallInventari.html?inventory_id={{i.inventory_id}}" target="_self"
+                                class="glyphicon glyphicon-eye-open"></a>
+                            <a ng-href="/inventory/generate/{{i.inventory_id}}" target="_self"
+                                class="glyphicon glyphicon-download-alt"></a>
+                            <a ng-href="#" ng-click="deleteInventory(i.inventory_id)" target="_self"
+                                class="glyphicon glyphicon-remove-circle"></a>
                         </td>
                     </tr>
-                    <tbody>
+                <tbody>
             </table>
         </div>
         <div class="row">
             <div class="col-lg-6">
-              <div class="input-group">
-                <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes</a>
-              </div>
+                <div class="input-group">
+                    <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}"
+                        target="_blank">Etiquetes</a>
+                </div>
             </div>
             <div class="col-lg-6">
-              <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="btnSendFile">Enviar</button>
-                </span>
-                <input type="file" class="form-control">
-              </div>
+                <div class="input-group">
+                    <input type="file" class="file-input" ng-model="fileName" ng-change="onFileSelected()" id="fileUpload">
+                    <input id="file-name" type="text" class="form-control" value="{{fileName || 'No has pujat ningun fitxer'}}" disabled>
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary btn-xs upload-btn" type="button" ng-click="fileUploadClick($event)"></button>
+                    </span>
+                  </div>
             </div>
-          </div>
+        </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

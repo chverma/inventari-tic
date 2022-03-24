@@ -25,3 +25,16 @@ body {
 .areatext {
     padding-bottom: 16px;
 }
+
+.file-input {
+    display: none !important;
+}
+
+.upload-btn {
+    background-image: url("/img/attach_file.png");
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    background-position: center;
+    width: 33px;
+    height: 34px;
+}
