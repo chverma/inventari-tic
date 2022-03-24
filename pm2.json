@@ -1,0 +1,14 @@
+{
+    "name": "inventari_tic",
+    "script": "index.js",
+    "instances": "2",
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "env_production": {
+        "NODE_ENV": "production"
+    },
+    "watch": true,
+    "ignore_watch": [".*", "node_modules"],
+    "merge_logs": true
+}

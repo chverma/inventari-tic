@@ -1,9 +1,0 @@
-{
-  "apps" : [{
-    "merge_logs"   : true,
-    "name"         : "inventari_tic",
-    "script"       : "index.js",
-    "watch"        : true,
-    "ignore_watch" : [".*", "node_modules"]
-  }]
-}
