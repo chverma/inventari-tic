@@ -69,6 +69,8 @@ var typeRoutes = require('./app/routes/routesType');
 typeRoutes(app);
 var userRoutes = require('./app/routes/routesUser');
 userRoutes(app);
+var inventorySaiRoutes = require('./app/routes/routesInventorySai');
+inventorySaiRoutes(app);
 
 
 // Listen & run server

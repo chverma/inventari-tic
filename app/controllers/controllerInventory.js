@@ -5,7 +5,6 @@ var Inventory = require('../model/modelInventory.js');
 var Type = require('../model/modelType.js');
 var Location = require('../model/modelLocation.js');
 var Labels = require('./generateLabels.js');
-var Promise = require("bluebird");
 
 exports.list_all_inventory = function(req, res, next) {
     Inventory.getAllInventory(function(err, inventory) {
@@ -224,60 +223,4 @@ exports.generate_labels = function(req, res) {
     Inventory.getInventoriesByIds(inventory_id_items, (err, inventoryItems) => {
         Labels.generateLabels(inventoryItems, req, res);
     });
-}
-
-exports.parse_xlsx = function(req, res) {
-    const XLSX = require("xlsx");
-    const formidable = require("formidable");
-
-    const form = new formidable.IncomingForm();
-
-    form.parse(req, (err, fields, files) => {
-
-        var f = files[Object.keys(files)[0]];
-
-        const filepath = f.filepath;
-        const workbook = XLSX.readFile(filepath, { type: 'string' });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-        var jsa = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-        /* [
-            'Nom',
-            'Entitat',
-            'Estat',
-            'GVA - Codi Article',
-            'GVA - DescripciÃ³ Codi Article',
-            'NÃºmero de sÃ¨rie',
-            'Fabricant',
-            'Model',
-            'GVA - Espai DestÃ­',
-            'GVA - DescripciÃ³ Espai DestÃ­'
-            ]
-        */
-        let id_inventari;
-        let cod_article;
-        let num_serie;
-        let marca;
-        let model;
-
-        let inventorySAI = {};
-        for (var i = 1; i < jsa.length; i++) {
-            id_inventari = jsa[i][0].split('(')[1].replace(')', '');
-            cod_article = jsa[i][3];
-            num_serie = jsa[i][5];
-            marca = jsa[i][6];
-            model = jsa[i][7];
-
-            inventorySAI[num_serie] = {
-                id_inventari: id_inventari,
-                cod_article: cod_article,
-                num_serie: num_serie,
-                marca: marca,
-                model: model
-            };
-        }
-
-    })
-    res.end();
-
 }

@@ -54,4 +54,18 @@ VALUES
   (1, 'monitor'),
   (2, 'portatil'),
   (3, 'tauleta'),
-  (4, 'projector');
+  (4, 'projector'),
+  (5, 'switch');
+
+CREATE TABLE IF NOT EXISTS `inventory_sai` (
+  `inventory_sai_id` int(11) AUTO_INCREMENT PRIMARY KEY,
+  `sai_id` varchar(150) NOT NULL,
+  `estat` varchar(150) NOT NULL,
+  `cod_article` varchar(150) DEFAULT NULL,
+  `desc_cod_article` varchar(150) DEFAULT NULL,
+  `num_serie` varchar(150) NOT NULL UNIQUE,
+  `fabricant` varchar(150) DEFAULT NULL,
+  `model` varchar(150) DEFAULT NULL,
+  `espai_desti` varchar(150) DEFAULT NULL,
+  `desc_espai_desti` varchar(150) DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci;

@@ -5,7 +5,6 @@ module.exports = function(app) {
 
     // todoList Routes
     app.get('/inventory/generate_labels/:inventory_items', inventoryList.generate_labels);
-    app.post('/inventory/parse_inventory', inventoryList.parse_xlsx)
     app.get('/inventory', inventoryList.list_all_inventory);
     app.post('/inventory', inventoryList.create_an_inventory);
 

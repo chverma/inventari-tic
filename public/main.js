@@ -223,7 +223,7 @@ function getAllInventoryController($scope, $http) {
         if (file) {
             let formFile = new FormData();
             formFile.append("upload", file);
-            $http.post("/inventory/parse_inventory", formFile, {
+            $http.post("/inventory_sai/parse_inventory", formFile, {
                 transformRequest: angular.identity,
                 headers: {
                     'Content-Type': undefined
