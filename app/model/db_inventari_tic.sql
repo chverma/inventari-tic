@@ -46,12 +46,11 @@ CREATE TABLE IF NOT EXISTS `types` (
 INSERT INTO
   `types` (`type_id`, `descripcio`)
 VALUES 
-  (0, 'ordinador'),
-  (1, 'monitor'),
-  (2, 'portatil'),
-  (3, 'tauleta'),
-  (4, 'projector'),
-  (5, 'switch');
+  (0, 'Ordinador'),
+  (1, 'Monitor'),
+  (2, 'Proyector'),
+  (3, 'Switch'),
+  (4, 'MIFI');
 
 CREATE TABLE IF NOT EXISTS `inventory_sai` (
   `inventory_sai_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
