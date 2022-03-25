@@ -47,6 +47,7 @@ exports.parse_inventory_sai_csv = function (req, res) {
             'Nom',
             'Entitat',
             'Estat',
+            'Tipus' => sols en pantalles
             'GVA - Codi Article',
             'GVA - Descripció Codi Article',
             'Número de sèrie',
@@ -67,6 +68,21 @@ exports.parse_inventory_sai_csv = function (req, res) {
         let desc_espai_desti;
 
         let inventorySAI = {};
+
+        let isai_id = 0;
+        let iestat = 1;
+        let icod_article = 1;
+        let idesc_cod_article = 1;
+        let inum_serie = 1;
+        let ifabricant = 1;
+        let imodel = 1;
+        let iespai_desti = 1;
+        let idesc_espai_desti = 1;
+        // is PC
+        let isPC = false;
+        if (jsa[0].length == 10) {
+            
+        }
         for (var i = 1; i < jsa.length; i++) {
             sai_id = jsa[i][0].split('(')[1].replace(')', '');
             estat = jsa[i][2];
@@ -81,14 +97,13 @@ exports.parse_inventory_sai_csv = function (req, res) {
             if (num_serie == 'To be filled by O.E.M.' || num_serie == '"To be filled by O.E.M."') {
                 num_serie = 'To be filled by O.E.M.' + Uuid.v4();
             }
+            if (!num_serie) {
+                num_serie = "sense_num"
+            }
             fabricant = jsa[i][6];
             model = jsa[i][7];
             espai_desti = jsa[i][8];
-            if (jsa[i][9]) {
-                desc_espai_desti = Buffer.from(jsa[i][9], 'utf-8').toString();
-            } else {
-                desc_espai_desti = undefined;
-            }
+            desc_espai_desti = jsa[i][9];
 
             inventorySAI = {
                 sai_id: sai_id,

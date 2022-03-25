@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `inventory_sai` (
   `estat` varchar(150) NOT NULL,
   `cod_article` varchar(150) DEFAULT NULL,
   `desc_cod_article` varchar(150) DEFAULT NULL,
-  `num_serie` varchar(150) NOT NULL UNIQUE,
+  `num_serie` varchar(150) NOT NULL,
   `fabricant` varchar(150) DEFAULT NULL,
   `model` varchar(150) DEFAULT NULL,
   `espai_desti` varchar(150) DEFAULT NULL,
