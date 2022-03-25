@@ -62,7 +62,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <input type="file" class="file-input" ng-model="fileName" ng-change="onFileSelected()" id="fileUpload">
+                    <input id="fileUpload" type="file" class="file-input" ng-model="fileName" ng-change="onFileSelected()" accept=".csv">
                     <input id="file-name" type="text" class="form-control" value="{{fileName || 'No has pujat ningun fitxer'}}" disabled>
                     <span class="input-group-btn">
                       <button class="btn btn-primary btn-xs upload-btn" type="button" ng-click="fileUploadClick($event)"></button>
