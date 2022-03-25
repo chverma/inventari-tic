@@ -193,6 +193,23 @@ function getAllInventoryController($scope, $http) {
             console.log('Error: ' + data);
         });
 
+    // Get the types
+    $http.get('/type/')
+        .success(function(data) {
+            $scope.types = data;
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    // Get the locations
+    $http.get('/location')
+        .success(function(data) {
+            $scope.locations = data;
+        })
+        .error(function(data) {
+            console.log('Error: ', data);
+        });
     // Delete an incidence
     $scope.deleteInventory = function(id) {
         $http.delete('/inventory/' + id)
