@@ -43,14 +43,14 @@ Inventory.getInventoriesByIds = function(inventoriesIds, result) {
             console.error('error: ', err);
             result(err, null);
         } else {
-            console.log("RES",res)
+            console.log("RES", res)
             result(null, res);
         }
     });
 };
 
 Inventory.getAllInventory = function(result) {
-    sql.query(`Select i.inventory_id, i.num_serie, i.descripcio, i.observacions, i.created_at, loc.location_id, loc.aula, t.type_id, t.descripcio as tipus from inventory as i
+    sql.query(`Select i.inventory_id, i.num_serie, i.descripcio, i.text_etiqueta, i.observacions, i.created_at, loc.location_id, loc.aula, t.type_id, t.descripcio as tipus from inventory as i
      INNER JOIN location as loc ON i.location_id=loc.location_id
      INNER JOIN types as t ON i.type_id=t.type_id`, function(err, res) {
         if (err) {
