@@ -35,7 +35,7 @@ exports.parse_inventory_sai_csv = function (req, res) {
 
     const form = new formidable.IncomingForm();
 
-    form.parse(req, (err, fields, files) => {
+    return form.parse(req, (err, fields, files) => {
         var f = files[Object.keys(files)[0]];
 
         const filepath = f.filepath;
@@ -92,7 +92,7 @@ exports.parse_inventory_sai_csv = function (req, res) {
             idesc_espai_desti--;
             isPC = true;
         }
-
+        let errorsInserting = [];
         for (var i = 1; i < jsa.length; i++) {
             sai_id = jsa[i][isai_id].split('(')[1].replace(')', '');
             estat = jsa[i][iestat];
@@ -145,11 +145,13 @@ exports.parse_inventory_sai_csv = function (req, res) {
             InventorySai.createInventory(inventorySAI, function (err, inventory) {
                 if (err) {
                     console.error('ERROR: ', err)
+                    errorsInserting.push(err);
                 }
 
             });
         }
-        res.json({ message: 'Inventory SAI successfully inserted' });
+        res.json({ message: 'Inventory SAI successfully inserted', errors: errorsInserting });
     });
+    
 
 }
