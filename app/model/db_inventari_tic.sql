@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `inventory_sai` (
   `inventory_sai_id` int(11) AUTO_INCREMENT PRIMARY KEY,
   `sai_id` varchar(150) NOT NULL,
   `estat` varchar(150) NOT NULL,
+  `tipus` varchar(150) NOT NULL,
   `cod_article` varchar(150) DEFAULT NULL,
   `desc_cod_article` varchar(150) DEFAULT NULL,
   `num_serie` varchar(150) NOT NULL,

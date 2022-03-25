@@ -5,6 +5,7 @@ var sql = require('./db.js');
 var InventorySAI = function (inventory) {
     this.sai_id = inventory.sai_id;
     this.estat = inventory.estat;
+    this.tipus = inventory.tipus;
     this.cod_article = inventory.cod_article;
     this.desc_cod_article = inventory.desc_cod_article;
     this.num_serie = inventory.num_serie;
