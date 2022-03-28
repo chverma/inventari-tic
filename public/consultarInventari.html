@@ -15,19 +15,23 @@
     <div class="container">
         <!--Cabecera-->
         <div class="page-header">
-            <h1>Número d'entrades d'inventari: <span class="label label-info">{{ inventory.length }}</span></h1>
+            <span style="visibility: hidden; display: none;">{{ filteredResults = (inventory | filter:search ) }}</span>
+            <h1>Número d'entrades d'inventari: <span class="label label-info">{{ filteredResults.length }} </span></h1>
         </div>
         <!--Lista de Todos-->
         <div class="row">
             <div class="col-md-3 input-group">
                 <span class="input-group-addon">Lloc:</span>
-                <select name="locationSelect" class="form-control" id="locationSelect" ng-model="formData.location_id" ng-options="location.location_id as location.aula for (key, location) in locations" required>
+                <select name="locationSelect" class="form-control" id="locationSelect" ng-model="search.location_id" ng-options="location.location_id as location.aula for (key, location) in locations">
                 </select>
             </div>
             <div class="col-md-3 input-group">
                 <span class="input-group-addon">Tipus:</span>
-                <select name="typeSelect" class="form-control" id="typeSelect" ng-model="formData.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types" required>
+                <select name="typeSelect" class="form-control" id="typeSelect" ng-model="search.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types">
                 </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
             </div>
         </div>
         <div id="todo-list" class="row">
@@ -45,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in inventory">
+                    <tr ng-repeat="i in filteredResults">
                         <td><input type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id)"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.descripcio }}</td>
@@ -65,7 +69,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="input-group">
-                    <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes</a>
+                    <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes <div class="glyphicon glyphicon-qrcode"></div></a>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -75,7 +79,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-primary btn-xs upload-btn" type="button"
                             ng-click="fileUploadClick($event)"></button>
-                    </span>
+                </span>
                 </div>
             </div>
         </div>

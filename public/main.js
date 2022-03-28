@@ -249,6 +249,11 @@ function getAllInventoryController($scope, $http) {
             $scope.fileName = '';
         }
     };
+
+    $scope.clearFilter = function() {
+        $scope.search.location_id = '';
+        $scope.search.type_id = '';
+    }
 }
 
 /**************************************
