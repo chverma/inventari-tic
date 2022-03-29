@@ -1,7 +1,17 @@
-var appModule = angular.module('angularTIC', []);
+var appModule = angular.module('angularTIC', ['ui.bootstrap']);
 appModule.config(['$locationProvider', function($locationProvider) {
     $locationProvider.html5Mode(true);
 }]);
+
+appModule.filter('startFrom', function() {
+    return function(input, start) {
+        if (input) {
+            start = +start;
+            return input.slice(start);
+        }
+        return [];
+    };
+});
 
 /* Auxiliar methods */
 function successMessage(msg) {
@@ -17,17 +27,17 @@ function errorMessage(msg) {
 }
 
 /* Index page controller */
-function indexController($scope, $http) {
+appModule.controller('indexController', function($scope, $http) {
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
     $scope.isCreateLocation = false;
     $scope.isListLocation = false;
     $scope.isCreateType = false;
     $scope.isListType = false;
-}
+});
 
 /* Navbar controller */
-function navBarController($scope, $http) {
+appModule.controller('navBarController', function($scope, $http) {
     $http.get('/user')
         .success(function(data) {
             console.log(data)
@@ -37,13 +47,13 @@ function navBarController($scope, $http) {
         .error(function(data) {
             console.log('Error: ' + data);
         });
-}
+});
 
 /**************************************
  * Inventory
  * 
  **************************************/
-function createInventoryController($scope, $http) {
+appModule.controller('createInventoryController', function($scope, $http) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = true;
     $scope.isListInventory = false;
@@ -95,10 +105,10 @@ function createInventoryController($scope, $http) {
                 errorMessage('Ha ocorregut un error al crear l\'entrada d\'inventari' + data)
             });
     };
-}
+});
 
 /* Detail inventory entry controller: Returns one entry by id */
-function getDetailInventoryController($scope, $http, $location) {
+appModule.controller('getDetailInventoryController', function getDetailInventoryController($scope, $http, $location) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -168,10 +178,10 @@ function getDetailInventoryController($scope, $http, $location) {
     $scope.previousPage = function() {
         window.history.back();
     }
-}
+});
 
 /* List inventory entries controller: Returns all entries */
-function getAllInventoryController($scope, $http) {
+appModule.controller('getAllInventoryController', function($scope, $http, filterFilter) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = true;
@@ -187,7 +197,33 @@ function getAllInventoryController($scope, $http) {
     $http.get('/inventory')
         .success(function(data) {
             $scope.inventory = data;
-            console.log(data);
+
+            $scope.currentPage = 1
+            $scope.itemsPerPage = 10;
+            $scope.maxSize = 5;
+
+            $scope.numOfPages = function() {
+                console.log($scope.inventory.length / $scope.itemsPerPage)
+                return Math.ceil($scope.inventory.length / $scope.itemsPerPage);
+
+            };
+
+            $scope.$watch('currentPage + numPerPage', function() {
+                var begin = (($scope.currentPage - 1) * $scope.itemsPerPage),
+                    end = begin + $scope.itemsPerPage;
+
+                $scope.filteredItems = $scope.inventory.slice(begin, end);
+            });
+
+            // $watch search to update pagination
+            $scope.$watch('search', function(newVal, oldVal) {
+                console.log("SEARCH")
+                    //$scope.filtered = filterFilter($scope.inventory, newVal);
+                    //$scope.totalItems = $scope.filtered.length;
+                    //$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                    //$scope.currentPage = 1;
+            }, true);
+
         })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -251,10 +287,11 @@ function getAllInventoryController($scope, $http) {
     };
 
     $scope.clearFilter = function() {
-        $scope.search.location_id = '';
-        $scope.search.type_id = '';
+        $scope.search = {};
     }
-}
+
+
+});
 
 /**************************************
  * LOCATION
@@ -262,7 +299,7 @@ function getAllInventoryController($scope, $http) {
  **************************************/
 
 /* Create location entry */
-function createLocationController($scope, $http) {
+appModule.controller('createLocationController', function createLocationController($scope, $http) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -298,10 +335,10 @@ function createLocationController($scope, $http) {
                 errorMessage('Ha ocorregut un error al crear l\'entrada de lloc' + data)
             });
     };
-}
+});
 
 /* Get one location */
-function getLocationController($scope, $http, $location) {
+appModule.controller('getLocationController', function($scope, $http, $location) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -353,10 +390,10 @@ function getLocationController($scope, $http, $location) {
     $scope.previousPage = function() {
         window.history.back();
     }
-}
+});
 
 /* List all location entries controller: Returns all entries */
-function getAllLocationController($scope, $http) {
+appModule.controller('getAllLocationController', function($scope, $http) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -385,7 +422,7 @@ function getAllLocationController($scope, $http) {
                 errorMessage('Lloc no borrat. Ha ocorregut un error.')
             });
     };
-}
+});
 
 /**************************************
  * TYPE
@@ -393,7 +430,7 @@ function getAllLocationController($scope, $http) {
  **************************************/
 
 /* Create type entry */
-function createTypeController($scope, $http) {
+appModule.controller('createTypeController', function($scope, $http) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -429,10 +466,10 @@ function createTypeController($scope, $http) {
                 errorMessage('Ha ocorregut un error al crear l\'entrada de tipus' + data)
             });
     };
-}
+});
 
 /* Get one type */
-function getTypeController($scope, $http, $location) {
+appModule.controller('getTypeController', function($scope, $http, $location) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -484,10 +521,10 @@ function getTypeController($scope, $http, $location) {
     $scope.previousPage = function() {
         window.history.back();
     }
-}
+});
 
 /* List all type entries controller: Returns all entries */
-function getAllTypeController($scope, $http) {
+appModule.controller('getAllTypeController', function($scope, $http) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = false;
@@ -516,4 +553,4 @@ function getAllTypeController($scope, $http) {
                 errorMessage('Lloc no borrat. Ha ocorregut un error.')
             });
     };
-}
+});

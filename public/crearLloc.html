@@ -8,7 +8,11 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script data-require="angular.js@*" data-semver="1.4.8" src="https://code.angularjs.org/1.4.8/angular.js"></script>
+    <script data-require="angular-ui-bootstrap@0.12.1" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <base href="/">
 </head>
 
 <body ng-controller="createLocationController">
@@ -38,8 +42,7 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label>Aula / Lloc</label>
-                                <input type="text" class="text-center form-control"
-                                    placeholder="Aula o lloc: per exemple aula 23" ng-model="formData.aula" required />
+                                <input type="text" class="text-center form-control" placeholder="Aula o lloc: per exemple aula 23" ng-model="formData.aula" required />
                             </div>
                         </div>
                     </div>
@@ -48,17 +51,13 @@
                 <div class="row panel panel-default">
                     <div class="col-md-12 form-group panel-body">
                         <label>Observacions</label>
-                        <textarea name="Text1" cols="40" rows="5" class="text-center form-control"
-                            placeholder="Observacions" ng-model="formData.observacions"></textarea>
+                        <textarea name="Text1" cols="40" rows="5" class="text-center form-control" placeholder="Observacions" ng-model="formData.observacions"></textarea>
                     </div>
                 </div>
                 <button class="btn btn-primary btn-lg" ng-click="createLocation()">Afegir</button>
         </form>
-    </div>
-    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="main.js"></script>
+        </div>
+        <script src="main.js"></script>
 </body>
 
 </html>

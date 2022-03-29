@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Consultar llistat d'inventari</title>
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
+    <script data-require="angular.js@*" data-semver="1.4.8" src="https://code.angularjs.org/1.4.8/angular.js"></script>
+    <script data-require="angular-ui-bootstrap@0.12.1" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script src="main.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <base href="/">
 </head>
 
 <body ng-controller="getAllInventoryController">
     <nav ng-controller="navBarController" class="navbar navbar-default navbar-fixed-top" ng-include="'navbar.html'">
     </nav>
     <div class="container">
-        <!--Cabecera-->
-        <div class="page-header">
-            <span style="visibility: hidden; display: none;">{{ filteredResults = (inventory | filter:search ) }}</span>
-            <h1>Número d'entrades d'inventari: <span class="label label-info">{{ filteredResults.length }} </span></h1>
-        </div>
         <!--Lista de Todos-->
         <div class="row">
             <div class="col-md-3 input-group">
@@ -34,6 +34,7 @@
                 <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
             </div>
         </div>
+        {{ inventory.length }}
         <div id="todo-list" class="row">
             <table class="table table-striped table-hover">
                 <thead>
@@ -49,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in filteredResults">
+                    <tr ng-repeat="i in filteredItems">
                         <td><input type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id)"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.descripcio }}</td>
@@ -60,34 +61,31 @@
                         <td>
                             <a ng-href="/detallInventari.html?inventory_id={{i.inventory_id}}" target="_self" class="glyphicon glyphicon-eye-open"></a>
                             <a ng-href="/inventory/generate/{{i.inventory_id}}" target="_self" class="glyphicon glyphicon-download-alt"></a>
-                            <a ng-href="#" ng-click="deleteInventory(i.inventory_id)" target="_self" class="glyphicon glyphicon-remove-circle"></a>
+                            <a ng-click="deleteInventory(i.inventory_id)" target="_self" class="glyphicon glyphicon-remove-circle"></a>
                         </td>
                     </tr>
                     <tbody>
             </table>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes <div class="glyphicon glyphicon-qrcode"></div></a>
+            <pagination ng-model="currentPage" items-per-page="itemsPerPage" total-items="inventory.length" previous-text="Anterior" next-text="Següent" first-text="Primer" last-text="Últim" max-size="maxSize" boundary-links="true">
+            </pagination>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes <div class="glyphicon glyphicon-qrcode"></div></a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input id="fileUpload" type="file" class="file-input" ng-model="fileName" ng-change="onFileSelected()" accept=".csv">
-                    <input id="file-name" type="text" class="form-control" value="Pujar csv del SAI" disabled>
-                    <span class="input-group-btn">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input id="fileUpload" type="file" class="file-input" ng-model="fileName" ng-change="onFileSelected()" accept=".csv">
+                        <input id="file-name" type="text" class="form-control" value="Pujar csv del SAI" disabled>
+                        <span class="input-group-btn">
                         <button class="btn btn-primary btn-xs upload-btn" type="button"
                             ng-click="fileUploadClick($event)"></button>
                 </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="main.js"></script>
 </body>
 
 </html>
