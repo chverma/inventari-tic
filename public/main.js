@@ -3,16 +3,6 @@ appModule.config(['$locationProvider', function($locationProvider) {
     $locationProvider.html5Mode(true);
 }]);
 
-appModule.filter('startFrom', function() {
-    return function(input, start) {
-        if (input) {
-            start = +start;
-            return input.slice(start);
-        }
-        return [];
-    };
-});
-
 /* Auxiliar methods */
 function successMessage(msg) {
     $('.alert-success').css("display", "block")
@@ -180,8 +170,18 @@ appModule.controller('getDetailInventoryController', function getDetailInventory
     }
 });
 
+appModule.filter('startFrom', function() {
+    return function(items, start) {
+        if (items) {
+            start = +start;
+            return items.slice(start);
+        }
+        return [];
+    };
+});
+
 /* List inventory entries controller: Returns all entries */
-appModule.controller('getAllInventoryController', function($scope, $http, filterFilter) {
+appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFilter', function($scope, $http, filterFilter) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = true;
@@ -201,27 +201,16 @@ appModule.controller('getAllInventoryController', function($scope, $http, filter
             $scope.currentPage = 1
             $scope.itemsPerPage = 10;
             $scope.maxSize = 5;
+            $scope.totalItems = $scope.inventory.length;
 
-            $scope.numOfPages = function() {
-                console.log($scope.inventory.length / $scope.itemsPerPage)
-                return Math.ceil($scope.inventory.length / $scope.itemsPerPage);
-
-            };
-
-            $scope.$watch('currentPage + numPerPage', function() {
-                var begin = (($scope.currentPage - 1) * $scope.itemsPerPage),
-                    end = begin + $scope.itemsPerPage;
-
-                $scope.filteredItems = $scope.inventory.slice(begin, end);
-            });
+            $scope.numOfPages = Math.ceil($scope.totalItems / $scope.itemsPerPage);
 
             // $watch search to update pagination
             $scope.$watch('search', function(newVal, oldVal) {
-                console.log("SEARCH")
-                    //$scope.filtered = filterFilter($scope.inventory, newVal);
-                    //$scope.totalItems = $scope.filtered.length;
-                    //$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-                    //$scope.currentPage = 1;
+                $scope.filtered = filterFilter($scope.inventory, newVal);
+                $scope.totalItems = $scope.filtered.length;
+                $scope.numOfPages = Math.ceil($scope.totalItems / $scope.itemsPerPage);
+                $scope.currentPage = 1;
             }, true);
 
         })
@@ -291,7 +280,7 @@ appModule.controller('getAllInventoryController', function($scope, $http, filter
     }
 
 
-});
+}]);
 
 /**************************************
  * LOCATION

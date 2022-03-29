@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in filteredItems">
+                    <tr ng-repeat="i in filtered = inventory | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
                         <td><input type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id)"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.descripcio }}</td>
@@ -66,7 +66,7 @@
                     </tr>
                     <tbody>
             </table>
-            <pagination ng-model="currentPage" items-per-page="itemsPerPage" total-items="inventory.length" previous-text="Anterior" next-text="Següent" first-text="Primer" last-text="Últim" max-size="maxSize" boundary-links="true">
+            <pagination ng-model="currentPage" items-per-page="itemsPerPage" total-items="totalItems" previous-text="Anterior" next-text="Següent" first-text="Primer" last-text="Últim" max-size="maxSize" boundary-links="true">
             </pagination>
             <div class="row">
                 <div class="col-lg-6">
