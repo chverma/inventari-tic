@@ -4,6 +4,7 @@ const stream = require('stream');
 const pdfme = require('@pdfme/generator');
 const BLANK_PDF = pdfme.BLANK_PDF;
 const generate = pdfme.generate;
+require('dotenv').config();
 
 function schemaObj(type, position, width, height, fontSize) {
     this.type = type;
@@ -44,7 +45,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 "y": 12 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('qrcode', position, 20, 20, 0);
-            inputsObj[newObjKey] = 'http://inventaritic.com/detallInventari.html?inventory_id=' + inventory_items[itemCount].inventory_id;
+            inputsObj[newObjKey] = process.env.INVENTORY_HOST + '/detallInventari.html?inventory_id=' + inventory_items[itemCount].inventory_id;
 
             // Text type
             newObjKey = "type" + row + "-" + col;
@@ -71,7 +72,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 "y": 27 + row * colVerticalIncrement
             };
             schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
-            inputsObj[newObjKey] = 'NS: '+ inventory_items[itemCount].num_serie;
+            inputsObj[newObjKey] = inventory_items[itemCount].num_serie;
 
             // Logo image
             newObjKey = "logo" + row + "-" + col;
