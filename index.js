@@ -7,7 +7,25 @@ var path = require('path');
 var Session = require('express-session');
 const nocache = require('nocache');
 const cors = require('cors');
+const redis = require('redis');
+const redisStore = require('connect-redis')(Session);
+const socket = {
+    host: process.env.REDIS_HOST,
+    port: 6379
+}
+const redisClient = redis.createClient({ socket: socket });
 
+redisClient.on('error', function(err) {
+    console.log('*Redis Client Error: ' + err.message);
+});
+redisClient.on('connect', function() {
+    console.log('Connected to redis instance');
+});
+
+(async() => {
+    // Connect to redis server
+    await redisClient.connect();
+})();
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -23,32 +41,35 @@ if (typeof atob === 'undefined') {
     };
 }
 
-
-app.use(cors())
-app.use(function(req, res, next) {
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-});
 app.use(nocache());
+
 // Init Session
 app.use(Session({
     secret: 'raysources-secret-19890913007',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false,
+    store: new redisStore({ client: redisClient }),
+    //cookie: { maxAge: 60000 }
 }));
 
-
+app.use(cors());
 app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     console.log("-----------------log route", req.path);
-    // HARDCODED: PLEASE CHANGE
-    if (!req.session.userData) {
-        req.session.userData = {};
-        req.session.userData.email = "tic@email.com";
-        req.session.userData.avatar = "img/computer-icon.png"
-    }
     next();
 })
+
+function checkUser(req, res, next) {
+    console.log("checkUser", req.session)
+    if ((req.path === '/login' || req.path === '/login.html') || (req.session && req.session.userData)) {
+        return next();
+    } else {
+        //authenticate user
+        return res.redirect(301, '/login.html');
+    }
+}
+
+app.use(checkUser);
 
 
 // Static files
@@ -61,6 +82,7 @@ app.use(bodyParser.text({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
+
 var inventoryRoutes = require('./app/routes/routesInventory');
 inventoryRoutes(app);
 var locationRoutes = require('./app/routes/routesLocation');
@@ -71,6 +93,8 @@ var userRoutes = require('./app/routes/routesUser');
 userRoutes(app);
 var inventorySaiRoutes = require('./app/routes/routesInventorySai');
 inventorySaiRoutes(app);
+var userRoutes = require('./app/routes/routesUser');
+userRoutes(app);
 
 
 // Listen & run server
