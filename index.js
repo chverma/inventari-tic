@@ -13,7 +13,7 @@ const socket = {
     host: process.env.REDIS_HOST,
     port: 6379
 }
-const redisClient = redis.createClient({ socket: socket });
+const redisClient = redis.createClient({ legacyMode: true , socket: socket });
 
 redisClient.on('error', function(err) {
     console.log('*Redis Client Error: ' + err.message);
