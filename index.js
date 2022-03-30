@@ -60,8 +60,12 @@ app.use((req, res, next) => {
 })
 
 function checkUser(req, res, next) {
-    console.log("checkUser", req.session)
-    if ((req.path === '/login' || req.path === '/login.html') || (req.session && req.session.userData)) {
+    var authheader = req.headers.authorization;
+    var api_token;
+    if (authheader) {
+        api_token = authheader.split(' ')[1].split(':')[0];
+    }
+    if ((req.path === '/login' || req.path === '/login.html') || (req.session && req.session.userData) || (api_token === process.env.INVENTORY_TOKEN)) {
         return next();
     } else {
         //authenticate user
