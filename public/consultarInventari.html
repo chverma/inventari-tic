@@ -82,9 +82,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <input id="fileUpload" type="file" class="file-input" ng-model="fileName" ng-change="onFileSelected()" accept=".csv">
+                        <input id="fileUpload" type="file" class="file-input" ng-model="fileName" onchange="angular.element(this).scope().onFileSelected()" accept=".csv">
                         <input id="file-name" type="text" class="form-control" value="Pujar csv del SAI" disabled>
-                        <span class="input-group-btn">
+                        <span class="input-group-btn">    
                         <button class="btn btn-primary btn-xs upload-btn" type="button"
                             ng-click="fileUploadClick($event)"></button>
                 </span>

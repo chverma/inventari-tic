@@ -260,8 +260,6 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
 
     $scope.onFileSelected = function() {
         let file = document.getElementById('fileUpload').files[0];
-        //document.getElementById('file-name').value = file.name;
-
         if (file) {
             let formFile = new FormData();
             formFile.append("upload", file);
