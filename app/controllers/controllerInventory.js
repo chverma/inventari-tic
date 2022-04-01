@@ -1,6 +1,4 @@
 'use strict';
-const https = require('https');
-const cheerio = require("cheerio");
 var Inventory = require('../model/modelInventory.js');
 var Type = require('../model/modelType.js');
 var Location = require('../model/modelLocation.js');
@@ -22,62 +20,13 @@ const create_an_inventory = function(req, res) {
     if (!newInventory) {
         res.status(400).send({ error: true, message: 'Please provide inventory' });
     } else {
-        if (newInventory.descripcio.startsWith("http")) {
-            var url = newInventory.descripcio.replace("https://", "").replace("http://", "").split("/");
-            var path = '';
-            for (var i = 1; i < url.length; i++) {
-                path += '/' + url[i];
+        Inventory.createInventory(newInventory, function(err, inventory) {
+            if (err) {
+                res.status(400).json({ error: true, message: err });
+            } else {
+                res.json(inventory);
             }
-            console.log(path)
-            const options = {
-                hostname: url[0],
-                port: 443,
-                path: path,
-                method: 'GET'
-            }
-
-            const request = https.request(options, response => {
-                console.log(`statusCode: ${response.statusCode}`)
-
-                var body = '';
-                var i = 0;
-                response.on('data', function(chunk) {
-                    i++;
-                    body += chunk;
-                });
-                response.on('end', function() {
-
-                    if (response.statusCode == 200) {
-                        const $ = cheerio.load(body);
-                        newInventory.descripcio = '';
-                        newInventory.descripcio += $('h2').text();
-                        newInventory.descripcio += '\n';
-                        newInventory.descripcio += $('div.row:nth-child(3) > div:nth-child(1) > details:nth-child(3) > ul:nth-child(3) > li:nth-child(1)').text();
-                    }
-                    Inventory.createInventory(newInventory, function(err, inventory) {
-                        if (err) {
-                            res.status(400).json({ error: true, message: err });
-                        } else {
-                            res.json(inventory);
-                        }
-                    });
-                });
-            })
-
-            request.on('error', error => {
-                console.error(error)
-            })
-
-            request.end()
-        } else {
-            Inventory.createInventory(newInventory, function(err, inventory) {
-                if (err) {
-                    res.status(400).json({ error: true, message: err });
-                } else {
-                    res.json(inventory);
-                }
-            });
-        }
+        });
     }
 };
 
@@ -226,7 +175,7 @@ const generate_labels = function(req, res) {
     });
 }
 
-const generate_labels_by_loc_type = function (req, res) {
+const generate_labels_by_loc_type = function(req, res) {
     let search = JSON.parse(req.params.search);
     Inventory.getInventoryIdByLocationType(search, (err, inventoryIds) => {
         inventoryIds = inventoryIds.map((val, key) => {
@@ -237,4 +186,4 @@ const generate_labels_by_loc_type = function (req, res) {
     });
 }
 
-module.exports = {list_all_inventory, create_an_inventory, read_an_inventory, update_an_inventory, delete_an_inventory, generate_labels, generate_labels_by_loc_type, generate_pdf}
+module.exports = { list_all_inventory, create_an_inventory, read_an_inventory, update_an_inventory, delete_an_inventory, generate_labels, generate_labels_by_loc_type, generate_pdf }
