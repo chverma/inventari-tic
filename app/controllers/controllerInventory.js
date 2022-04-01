@@ -20,6 +20,7 @@ const create_an_inventory = function(req, res) {
     if (!newInventory) {
         res.status(400).send({ error: true, message: 'Please provide inventory' });
     } else {
+        newInventory.num_serie = newInventory.num_serie.toUpperCase();
         Inventory.createInventory(newInventory, function(err, inventory) {
             if (err) {
                 res.status(400).json({ error: true, message: err });
