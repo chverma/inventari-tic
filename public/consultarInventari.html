@@ -47,6 +47,7 @@
                     <tr>
                         <th scope="col">Generar etiqueta</th>
                         <th scope="col">Núm. sèrie</th>
+                        <th scope="col">Text d'etiqueta</th>
                         <th scope="col">Descripció</th>
                         <th scope="col">Lloc</th>
                         <th scope="col">Tipus</th>
@@ -59,6 +60,7 @@
                     <tr ng-repeat="i in filtered = inventory | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
                         <td><input type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id)"></td>
                         <td>{{ i.num_serie }}</td>
+                        <td>{{ i.text_etiqueta }}</td>
                         <td>{{ i.descripcio }}</td>
                         <td>{{ i.aula }}</td>
                         <td>{{ i.tipus }}</td>
