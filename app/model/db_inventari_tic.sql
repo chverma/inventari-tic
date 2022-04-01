@@ -83,6 +83,9 @@ BEGIN
   WHERE num_serie LIKE CONCAT("%", NEW.num_serie);
 
   IF des_article_var IS NOT NULL THEN
+    IF tipus_var = 'Monitor' THEN
+      SET des_article_var = CONCAT('Monitor: ', des_article_var);
+    END IF;
     SET NEW.descripcio = des_article_var;
 
     SELECT type_id
