@@ -75,12 +75,17 @@
             <pagination ng-model="currentPage" items-per-page="itemsPerPage" total-items="totalItems" previous-text="Anterior" next-text="Següent" first-text="Primer" last-text="Últim" max-size="maxSize" boundary-links="true">
             </pagination>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="input-group">
-                        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes <div class="glyphicon glyphicon-qrcode"></div></a>
+                        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels/{{itemsToGenerateLabels}}" target="_blank">Etiquetes seleccionades <div class="glyphicon glyphicon-qrcode"></div></a>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <a class="btn btn-primary btn-lg" ng-href="/inventory/generate_labels_by_loc_type/{{search}}" target="_blank">Etiquetes per lloc/tipus <div class="glyphicon glyphicon-qrcode"></div></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
                     <div class="input-group">
                         <input id="fileUpload" type="file" class="file-input" ng-model="fileName" onchange="angular.element(this).scope().onFileSelected()" accept=".csv">
                         <input id="file-name" type="text" class="form-control" value="Pujar csv del SAI" disabled>

@@ -6,7 +6,7 @@ var Type = require('../model/modelType.js');
 var Location = require('../model/modelLocation.js');
 var Labels = require('./generateLabels.js');
 
-exports.list_all_inventory = function(req, res, next) {
+const list_all_inventory = function(req, res, next) {
     Inventory.getAllInventory(function(err, inventory) {
         if (err) {
             res.send(err);
@@ -15,7 +15,7 @@ exports.list_all_inventory = function(req, res, next) {
     });
 };
 
-exports.create_an_inventory = function(req, res) {
+const create_an_inventory = function(req, res) {
     var newInventory = new Inventory(req.body);
 
     // handles null error
@@ -81,7 +81,7 @@ exports.create_an_inventory = function(req, res) {
     }
 };
 
-exports.read_an_inventory = function(req, res) {
+const read_an_inventory = function(req, res) {
     Inventory.getInventoryById(req.params.inventoryId, function(err, inventory) {
         if (err) {
             res.send(err);
@@ -90,7 +90,7 @@ exports.read_an_inventory = function(req, res) {
     });
 };
 
-exports.update_an_inventory = function(req, res) {
+const update_an_inventory = function(req, res) {
     Inventory.updateById(req.params.inventoryId, new Inventory(req.body), function(err, inventory) {
         if (err) {
             res.send(err);
@@ -99,7 +99,7 @@ exports.update_an_inventory = function(req, res) {
     });
 };
 
-exports.delete_an_inventory = function(req, res) {
+const delete_an_inventory = function(req, res) {
     Inventory.removeById(req.params.inventoryId, function(err, inventory) {
         if (err) {
             res.send(err);
@@ -108,7 +108,7 @@ exports.delete_an_inventory = function(req, res) {
     });
 };
 
-exports.generate_pdf = function(req, res) {
+const generate_pdf = function(req, res) {
     var PizZip = require('pizzip');
     var Docxtemplater = require('docxtemplater');
 
@@ -218,9 +218,23 @@ exports.generate_pdf = function(req, res) {
     });
 };
 
-exports.generate_labels = function(req, res) {
+const generate_labels = function(req, res) {
     let inventory_id_items = JSON.parse(req.params.inventory_items);
+    console.log(inventory_id_items)
     Inventory.getInventoriesByIds(inventory_id_items, (err, inventoryItems) => {
         Labels.generateLabels(inventoryItems, req, res);
     });
 }
+
+const generate_labels_by_loc_type = function (req, res) {
+    let search = JSON.parse(req.params.search);
+    Inventory.getInventoryIdByLocationType(search, (err, inventoryIds) => {
+        inventoryIds = inventoryIds.map((val, key) => {
+            return val['inventory_id'];
+        });
+        req.params.inventory_items = JSON.stringify(inventoryIds);
+        generate_labels(req, res);
+    });
+}
+
+module.exports = {list_all_inventory, create_an_inventory, read_an_inventory, update_an_inventory, delete_an_inventory, generate_labels, generate_labels_by_loc_type, generate_pdf}

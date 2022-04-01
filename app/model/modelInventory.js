@@ -49,6 +49,34 @@ Inventory.getInventoriesByIds = function(inventoriesIds, result) {
     });
 };
 
+Inventory.getInventoryIdByLocationType = function(whereFields, result) {
+    let where = '';
+    if (whereFields.location_id >= 0) {
+        where += `location_id = ${whereFields.location_id}`;
+    }
+
+    if (whereFields.type_id >= 0) {
+        if (where.length > 0) {
+            where += ' AND '
+        }
+        where += `type_id = ${whereFields.type_id}`;
+    }
+
+    if (where.length == 0) {
+        where = '1=1';
+    }
+
+    
+    sql.query(`Select inventory_id from inventory where ${where}`, function(err, res) {
+        if (err) {
+            console.error('error: ', err);
+            result(err, null);
+        } else {
+            result(null, res);
+        }
+    });
+};
+
 Inventory.getAllInventory = function(result) {
     sql.query(`Select i.inventory_id, i.num_serie, i.descripcio, i.text_etiqueta, i.observacions, i.created_at, loc.location_id, loc.aula, t.type_id, t.descripcio as tipus from inventory as i
      INNER JOIN location as loc ON i.location_id=loc.location_id
