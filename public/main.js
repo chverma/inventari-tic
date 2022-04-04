@@ -248,17 +248,26 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
     };
     // Add item in order to generate labels
     document.getElementById('check-all').checked = false;
-    $scope.addItemToGenerateLabel = function(id) {
+    $scope.addItemToGenerateLabel = function(id, event) {
         if (id == -1) {
             let val = document.getElementById('check-all').checked;
             // Select all entries
             let elems = document.getElementsByClassName('check_label');
             for (let i = 0; i < elems.length; i++) {
                 elems[i].checked = val;
-                $scope.itemsToGenerateLabels.push(elems[i].value);
+                if (val) {
+                    $scope.itemsToGenerateLabels.push(elems[i].value);
+                } else {
+                    $scope.itemsToGenerateLabels.splice($scope.itemsToGenerateLabels.indexOf(elems[i].value), 2);
+                }
+
             }
         } else {
-            $scope.itemsToGenerateLabels.push(id);
+            if (event.currentTarget.checked) {
+                $scope.itemsToGenerateLabels.push(id);
+            } else {
+                $scope.itemsToGenerateLabels.splice($scope.itemsToGenerateLabels.indexOf(id), 2);
+            }
         }
     };
 
