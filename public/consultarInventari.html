@@ -58,7 +58,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="i in filtered = inventory | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
-                        <td><input class="check_label" type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id)" value="{{i.inventory_id}}"></td>
+                        <td><input class="check_label" type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id, $event)" value="{{i.inventory_id}}"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.text_etiqueta }}</td>
                         <td>{{ i.descripcio }}</td>
@@ -74,7 +74,7 @@
                     </tr>
                 </tbody>
                 <tfoot>
-                    <td colspan="9"><input id="check-all" type="checkbox" ng-click="addItemToGenerateLabel(-1)"><strong> Seleccionar totes</strong></td>
+                    <td colspan="9"><input id="check-all" type="checkbox" ng-click="addItemToGenerateLabel(-1, $event)"><strong> Seleccionar totes</strong></td>
                 </tfoot>
             </table>
             <pagination ng-model="currentPage" items-per-page="itemsPerPage" total-items="totalItems" previous-text="Anterior" next-text="Següent" first-text="Primer" last-text="Últim" max-size="maxSize" boundary-links="true">
