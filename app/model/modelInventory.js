@@ -15,7 +15,7 @@ var Inventory = function(inventory) {
 Inventory.createInventory = function(newInventory, result) {
     sql.query('INSERT INTO inventory set ?', newInventory, function(err, res) {
         if (err) {
-            //console.error('error: ', err);
+            console.error('error: ', err);
             result(err, null);
         } else {
             newInventory.inventory_id = res.insertId;
@@ -43,7 +43,7 @@ Inventory.getInventoriesByIds = function(inventoriesIds, result) {
             console.error('error: ', err);
             result(err, null);
         } else {
-            console.log("RES", res)
+            //console.log("RES", res)
             result(null, res);
         }
     });
@@ -66,8 +66,8 @@ Inventory.getInventoryIdByLocationType = function(whereFields, result) {
         where = '1=1';
     }
 
-    
-    sql.query(`Select inventory_id from inventory where ${where}`, function(err, res) {
+
+    sql.query(`Select inventory_id from inventory where ${where} ORDER BY text_etiqueta`, function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(err, null);
@@ -80,7 +80,8 @@ Inventory.getInventoryIdByLocationType = function(whereFields, result) {
 Inventory.getAllInventory = function(result) {
     sql.query(`Select i.inventory_id, i.num_serie, i.descripcio, i.text_etiqueta, i.observacions, i.created_at, loc.location_id, loc.aula, t.type_id, t.descripcio as tipus from inventory as i
      INNER JOIN location as loc ON i.location_id=loc.location_id
-     INNER JOIN types as t ON i.type_id=t.type_id`, function(err, res) {
+     INNER JOIN types as t ON i.type_id=t.type_id
+     ORDER BY loc.aula, i.text_etiqueta`, function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(null, err);
