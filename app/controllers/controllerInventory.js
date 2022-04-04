@@ -170,7 +170,6 @@ const generate_pdf = function(req, res) {
 
 const generate_labels = function(req, res) {
     let inventory_id_items = JSON.parse(req.params.inventory_items);
-    console.log(inventory_id_items)
     Inventory.getInventoriesByIds(inventory_id_items, (err, inventoryItems) => {
         Labels.generateLabels(inventoryItems, req, res);
     });
