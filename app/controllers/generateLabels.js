@@ -154,7 +154,7 @@ exports.generateLabels = function(inventory_items, req, res) {
     }
 
     let template = {
-        basePdf: baseEtiquetesData,
+        basePdf: BLANK_PDF,
         schemas: [schemasObj],
     };
 
