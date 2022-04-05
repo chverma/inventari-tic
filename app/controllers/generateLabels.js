@@ -21,7 +21,9 @@ function positionObj(x, y) {
 
 const controllerLabelsDataDir = path.join(__dirname, 'controllerLabelsData');
 const logoFile = path.join(controllerLabelsDataDir, 'logo_iestacio.png');
+const baseEtiquetesFile = path.join(controllerLabelsDataDir, 'baseEtiquetes.pdf');
 const logoImgData = "data:image/png;base64," + fs.readFileSync(logoFile, 'base64');
+const baseEtiquetesData = "data:application/pdf;base64," + fs.readFileSync(baseEtiquetesFile, 'base64');
 
 exports.generateLabels = function(inventory_items, req, res) {
     const colHorizontalIncrement = 65;
@@ -94,7 +96,7 @@ exports.generateLabels = function(inventory_items, req, res) {
     }
 
     let template = {
-        basePdf: BLANK_PDF,
+        basePdf: baseEtiquetesData,
         schemas: [schemasObj],
     };
 
