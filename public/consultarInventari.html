@@ -37,6 +37,11 @@
                 <select name="typeSelect" class="form-control" id="typeSelect" ng-model="search.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types">
                 </select>
             </div>
+            <div class="col-md-3 input-group">
+                <span class="input-group-addon">Núm. sèrie:</span>
+                <input name="numSerie" class="form-control" id="numSerie" ng-model="search.num_serie">
+                </select>
+            </div>
             <div class="col-md-3">
                 <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
             </div>
