@@ -68,7 +68,6 @@
                         <td ng-bind="i.created_at | date:'dd/MM/yyyy HH:mm'"></td>
                         <td>
                             <a ng-href="/detallInventari.html?inventory_id={{i.inventory_id}}" target="_self" class="glyphicon glyphicon-eye-open"></a>
-                            <a ng-href="/inventory/generate/{{i.inventory_id}}" target="_self" class="glyphicon glyphicon-download-alt"></a>
                             <a ng-click="deleteInventory(i.inventory_id)" target="_self" class="glyphicon glyphicon-remove-circle"></a>
                         </td>
                     </tr>

@@ -5,7 +5,7 @@
     <title>Detall de l'entrada d'inventari</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
@@ -14,7 +14,7 @@
     <script data-require="angular.js@*" data-semver="1.4.8" src="https://code.angularjs.org/1.4.8/angular.js"></script>
     <script data-require="angular-ui-bootstrap@0.12.1" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
     <script src="main.js"></script>
-    
+
     <base href="/">
 </head>
 
@@ -80,7 +80,6 @@
             </div>
 
             <div class="row col-md-12">
-                <a role="button" class="btn btn-success btn-lg" target="_self" ng-href="/inventory/generate/{{formData.inventory_id}}">PDF</a>
                 <button class="btn btn-primary btn-lg" ng-click="modifyInventory()">Modificar</button>
                 <button class="btn btn-danger btn-lg" ng-click="deleteInventory()">Eliminar</button>
                 <a role="button" class="btn btn-info btn-lg" target="_self" ng-href="/consultarInventari.html">Tornar</a>
