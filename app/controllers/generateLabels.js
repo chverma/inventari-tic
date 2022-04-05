@@ -115,8 +115,10 @@ exports.generateLabels = function(inventory_items, req, res) {
                     "x": labelModel[labelModelName].text_etiqueta.x + col * colHorizontalIncrement,
                     "y": labelModel[labelModelName].text_etiqueta.y + row * colVerticalIncrement
                 };
+
                 schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
                 inputsObj[newObjKey] = inventory_items[itemCount].text_etiqueta;
+
 
                 // Text location
                 newObjKey = "location" + row + "-" + col;
@@ -133,7 +135,13 @@ exports.generateLabels = function(inventory_items, req, res) {
                     "x": labelModel[labelModelName].ns.x + col * colHorizontalIncrement,
                     "y": labelModel[labelModelName].ns.y + row * colVerticalIncrement
                 };
-                schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
+                let fontSize;
+                if (inventory_items[itemCount].num_serie.length > 15) {
+                    fontSize = 9;
+                } else {
+                    fontSize = 12;
+                }
+                schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, fontSize);
                 inputsObj[newObjKey] = inventory_items[itemCount].num_serie;
 
                 // Logo image
