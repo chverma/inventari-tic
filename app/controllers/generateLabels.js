@@ -26,10 +26,10 @@ const logoImgData = "data:image/png;base64," + fs.readFileSync(logoFile, 'base64
 const baseEtiquetesData = "data:application/pdf;base64," + fs.readFileSync(baseEtiquetesFile, 'base64');
 
 exports.generateLabels = function(inventory_items, req, res) {
-    const colHorizontalIncrement = 65;
-    const colVerticalIncrement = 30;
+    const colHorizontalIncrement = 104;
+    const colVerticalIncrement = 37;
     const itemLength = inventory_items.length;
-    const itemsPerPage = 27;
+    const itemsPerPage = 16;
     let itemCount = 0;
     let pagesLength = Math.ceil(itemLength / itemsPerPage);
     let inputs = [];
@@ -38,15 +38,15 @@ exports.generateLabels = function(inventory_items, req, res) {
         let inputsObj = {};
         let row = 0;
         let col = 0;
-        while (itemCount < itemLength && row < 9) {
+        while (itemCount < itemLength && row < 8) {
             col = 0;
-            while (itemCount < itemLength && col < 3) {
+            while (itemCount < itemLength && col < 2) {
                 let newObjKey = '';
                 // QR
                 newObjKey = "qrcode" + row + "-" + col;
                 let position = {
                     "x": 12 + col * colHorizontalIncrement,
-                    "y": 12 + row * colVerticalIncrement
+                    "y": 8 + row * colVerticalIncrement
                 };
                 schemasObj[newObjKey] = new schemaObj('qrcode', position, 20, 20, 0);
                 inputsObj[newObjKey] = process.env.INVENTORY_HOST + '/detallInventari.html?inventory_id=' + inventory_items[itemCount].inventory_id;
@@ -55,7 +55,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 newObjKey = "type" + row + "-" + col;
                 position = {
                     "x": 36 + col * colHorizontalIncrement,
-                    "y": 12 + row * colVerticalIncrement
+                    "y": 8 + row * colVerticalIncrement
                 };
                 schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
                 inputsObj[newObjKey] = inventory_items[itemCount].text_etiqueta;
@@ -64,7 +64,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 newObjKey = "location" + row + "-" + col;
                 position = {
                     "x": 36 + col * colHorizontalIncrement,
-                    "y": 21 + row * colVerticalIncrement
+                    "y": 16 + row * colVerticalIncrement
                 };
                 schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
                 inputsObj[newObjKey] = inventory_items[itemCount].aula;
@@ -73,7 +73,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                 newObjKey = "ns" + row + "-" + col;
                 position = {
                     "x": 36 + col * colHorizontalIncrement,
-                    "y": 27 + row * colVerticalIncrement
+                    "y": 23 + row * colVerticalIncrement
                 };
                 schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
                 inputsObj[newObjKey] = inventory_items[itemCount].num_serie;
@@ -81,8 +81,8 @@ exports.generateLabels = function(inventory_items, req, res) {
                 // Logo image
                 newObjKey = "logo" + row + "-" + col;
                 position = {
-                    "x": 55 + col * colHorizontalIncrement,
-                    "y": 8.5 + row * colVerticalIncrement
+                    "x": 82 + col * colHorizontalIncrement,
+                    "y": 6 + row * colVerticalIncrement
                 };
                 schemasObj[newObjKey] = new schemaObj('image', position, 15, 15, 0);
                 inputsObj[newObjKey] = logoImgData;
