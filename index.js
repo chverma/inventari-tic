@@ -13,7 +13,7 @@ const socket = {
     host: process.env.REDIS_HOST,
     port: 6379
 }
-const redisClient = redis.createClient({ legacyMode: true , socket: socket });
+const redisClient = redis.createClient({ legacyMode: true, socket: socket });
 
 redisClient.on('error', function(err) {
     console.log('*Redis Client Error: ' + err.message);
@@ -69,6 +69,7 @@ function checkUser(req, res, next) {
         return next();
     } else {
         //authenticate user
+        req.session.redirectUrl = req.headers.referer || req.originalUrl || req.url;
         return res.redirect(301, '/login.html');
     }
 }
