@@ -23,6 +23,9 @@ exports.loginAction = function(req, res, next) {
         req.session.userData.email = req.body.username;
         req.session.userData.avatar = "img/computer-icon.png"
     }
-
-    return res.redirect(301, req.session.redirectUrl);
+    let url = req.session.redirectUrl;
+    if (url === undefined) {
+        url = '/index.html';
+    }
+    return res.redirect(301, url);
 }
