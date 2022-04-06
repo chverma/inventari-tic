@@ -28,23 +28,23 @@ labelModel['1272'] = {
     'rows': 8,
     'qrcode': {
         'x': 5,
-        'y': 16
+        'y': 13
     },
     'text_etiqueta': {
         'x': 26,
-        'y': 15
+        'y': 12
     },
     'aula': {
         'x': 26,
-        'y': 25
+        'y': 22
     },
     'ns': {
         'x': 26,
-        'y': 31
+        'y': 28
     },
     'logo': {
         'x': 50,
-        'y': 13
+        'y': 10
     },
 };
 labelModel['11783'] = {
@@ -75,7 +75,7 @@ labelModel['11783'] = {
     },
 };
 
-const labelModelName = '1272';
+const labelModelName = '11783';
 
 const controllerLabelsDataDir = path.join(__dirname, 'controllerLabelsData');
 const logoFile = path.join(controllerLabelsDataDir, 'logo_iestacio.png');
@@ -136,7 +136,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                     "y": labelModel[labelModelName].ns.y + row * colVerticalIncrement
                 };
                 let fontSize;
-                if (inventory_items[itemCount].num_serie.length > 15) {
+                if (inventory_items[itemCount].num_serie.length > 15 && labelModel[labelModelName].itemsPerPage > 16) {
                     fontSize = 9;
                 } else {
                     fontSize = 12;
