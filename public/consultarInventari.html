@@ -27,7 +27,7 @@
         </div>
         <!--Lista de Todos-->
         <div class="row">
-            <div class="col-md-3 input-group">
+            <div class="col-md-4 input-group">
                 <span class="input-group-addon">Lloc:</span>
                 <select name="locationSelect" class="form-control" id="locationSelect" ng-model="search.location_id" ng-options="location.location_id as location.aula for (key, location) in locations">
                 </select>
@@ -37,13 +37,25 @@
                 <select name="typeSelect" class="form-control" id="typeSelect" ng-model="search.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types">
                 </select>
             </div>
-            <div class="col-md-3 input-group">
+            <div class="col-md-4 input-group">
                 <span class="input-group-addon">Núm. sèrie:</span>
                 <input name="numSerie" class="form-control" id="numSerie" ng-model="search.num_serie">
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
                 <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 input-group">
+                <span class="input-group-addon">Des de:</span>
+                <input name="fromDate" class="form-control" type="date" id="fromDate" ng-model="from_date">
+                </select>
+            </div>
+            <div class="col-md-4 input-group">
+                <span class="input-group-addon">Fins:</span>
+                <input name="toDate" class="form-control" type="date" id="toDate" ng-model="to_date">
+                </select>
             </div>
         </div>
         <div id="todo-list" class="row">
@@ -62,7 +74,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in filtered = inventory | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
+                    <tr ng-repeat="i in filtered | dateRange : from_date : to_date  | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
                         <td><input class="check_label" type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id, $event)" value="{{i.inventory_id}}"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.text_etiqueta }}</td>

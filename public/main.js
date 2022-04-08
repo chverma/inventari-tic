@@ -180,6 +180,39 @@ appModule.filter('startFrom', function() {
     };
 });
 
+appModule.filter('dateRange', function() {
+    return function(items, fromDate, toDate) {
+        var filtered = [];
+
+        if (fromDate) {
+            var from_date = Date.parse(fromDate);
+            angular.forEach(items, function(item) {
+                if (Date.parse(item.created_at) > from_date) {
+                    filtered.push(item);
+                }
+            });
+        }
+
+        if (toDate) {
+            toDate.setDate(toDate.getDate() + 1);
+            var to_date = Date.parse(toDate);
+            if (filtered.length == 0) {
+                filtered = Array.from(items);
+            }
+            for (let i = 0; i < filtered.length; i++) {
+                if (Date.parse(filtered[i].created_at) > to_date) {
+                    filtered.splice(i, 2);
+                }
+            }
+        }
+
+        if (filtered.length == 0)
+            return items;
+        else
+            return filtered;
+    };
+});
+
 /* List inventory entries controller: Returns all entries */
 appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFilter', function($scope, $http, filterFilter) {
     // Set navbar menu option active (in use)
@@ -295,6 +328,8 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
 
     $scope.clearFilter = function() {
         $scope.search = {};
+        $scope.from_date = '';
+        $scope.to_date = '';
     }
 
 
