@@ -194,7 +194,8 @@ appModule.filter('dateRange', function() {
         }
 
         if (toDate) {
-            toDate.setDate(toDate.getDate() + 1);
+            toDate.setHours(23);
+            toDate.setMinutes(59);
             var to_date = Date.parse(toDate);
             if (filtered.length == 0) {
                 filtered = Array.from(items);
@@ -214,7 +215,7 @@ appModule.filter('dateRange', function() {
 });
 
 /* List inventory entries controller: Returns all entries */
-appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFilter', function($scope, $http, filterFilter) {
+appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFilter', 'dateRangeFilter', function($scope, $http, filterFilter, dateRange) {
     // Set navbar menu option active (in use)
     $scope.isCreateInventory = false;
     $scope.isListInventory = true;
@@ -240,10 +241,7 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
 
             // $watch search to update pagination
             $scope.$watch('search', function(newVal, oldVal) {
-                $scope.filtered = filterFilter($scope.inventory, newVal);
-                $scope.totalItems = $scope.filtered.length;
-                $scope.numOfPages = Math.ceil($scope.totalItems / $scope.itemsPerPage);
-                $scope.currentPage = 1;
+                $scope.filter(newVal);
             }, true);
 
         })
@@ -332,6 +330,24 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
         $scope.to_date = '';
     }
 
+    // Order by function
+    $scope.propertyName = 'aula';
+    $scope.reverse = true;
+
+    $scope.sortBy = function(propertyName) {
+        $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+        $scope.propertyName = propertyName;
+        $scope.filter($scope.search);
+        dateRange($scope.filtered, $scope.from_date, $scope.to_date)
+    };
+
+    // Filter function
+    $scope.filter = function(newVal) {
+        $scope.filtered = filterFilter($scope.inventory, newVal);
+        $scope.totalItems = $scope.filtered.length;
+        $scope.numOfPages = Math.ceil($scope.totalItems / $scope.itemsPerPage);
+        $scope.currentPage = 1;
+    }
 
 }]);
 

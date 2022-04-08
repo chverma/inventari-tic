@@ -46,7 +46,8 @@
                 <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
             </div>
         </div>
-        <div class="row">
+
+        <div class="row form-group">
             <div class="col-md-4 input-group">
                 <span class="input-group-addon">Des de:</span>
                 <input name="fromDate" class="form-control" type="date" id="fromDate" ng-model="from_date">
@@ -63,18 +64,39 @@
                 <thead>
                     <tr>
                         <th scope="col">Generar etiqueta</th>
-                        <th scope="col">Núm. sèrie</th>
-                        <th scope="col">Text d'etiqueta</th>
-                        <th scope="col">Descripció</th>
-                        <th scope="col">Lloc</th>
-                        <th scope="col">Tipus</th>
-                        <th scope="col">Observacions</th>
-                        <th scope="col">Data</th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('num_serie')">Núm. sèrie</span>
+                            <span class="sortorder" ng-show="propertyName === 'num_serie'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('text_etiqueta')">Text d'etiqueta</span>
+                            <span class="sortorder" ng-show="propertyName === 'text_etiqueta'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('descripcio')">Descripció</span>
+                            <span class="sortorder" ng-show="propertyName === 'descripcio'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('aula')">Lloc</span>
+                            <span class="sortorder" ng-show="propertyName === 'aula'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('tipus')">Tipus</span>
+                            <span class="sortorder" ng-show="propertyName === 'tipus'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('observacions')">Observacions</span>
+                            <span class="sortorder" ng-show="propertyName === 'observacions'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <span class="mouse-pointer" ng-click="sortBy('created_at')">Data</span>
+                            <span class="sortorder" ng-show="propertyName === 'created_at'" ng-class="{reverse: reverse}"></span>
+                        </th>
                         <th scope="col">Accions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in filtered | dateRange : from_date : to_date  | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
+                    <tr ng-repeat="i in filtered | orderBy:propertyName:reverse | dateRange : from_date : to_date  | filter:search | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
                         <td><input class="check_label" type="checkbox" ng-click="addItemToGenerateLabel(i.inventory_id, $event)" value="{{i.inventory_id}}"></td>
                         <td>{{ i.num_serie }}</td>
                         <td>{{ i.text_etiqueta }}</td>
