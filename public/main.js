@@ -227,6 +227,17 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
     // Create empty array
     $scope.itemsToGenerateLabels = [];
 
+    // Modal confirmation
+    $scope.openModalRemove = function(id) {
+        $('#modalRemove').modal('show')
+        $scope.itemToRemove = id;
+    };
+
+    $scope.okModalRemove = function() {
+        $('#modalRemove').modal('hide');
+        $scope.deleteInventory($scope.itemToRemove);
+    };
+
     // When the page is loadead, get from the API the incidences
     $http.get('/inventory')
         .success(function(data) {
@@ -480,6 +491,17 @@ appModule.controller('getAllLocationController', function($scope, $http) {
                 errorMessage('Lloc no borrat. Ha ocorregut un error.')
             });
     };
+
+    // Modal confirmation
+    $scope.openModalRemove = function(id) {
+        $('#modalRemove').modal('show')
+        $scope.itemToRemove = id;
+    };
+
+    $scope.okModalRemove = function() {
+        $('#modalRemove').modal('hide');
+        $scope.deleteLocation($scope.itemToRemove);
+    };
 });
 
 /**************************************
@@ -610,5 +632,16 @@ appModule.controller('getAllTypeController', function($scope, $http) {
                 console.log('Error:' + data);
                 errorMessage('Lloc no borrat. Ha ocorregut un error.')
             });
+    };
+
+    // Modal confirmation
+    $scope.openModalRemove = function(id) {
+        $('#modalRemove').modal('show')
+        $scope.itemToRemove = id;
+    };
+
+    $scope.okModalRemove = function() {
+        $('#modalRemove').modal('hide');
+        $scope.deleteType($scope.itemToRemove);
     };
 });
