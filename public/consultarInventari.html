@@ -25,41 +25,43 @@
         <div class="page-header">
             <h1>Número d'entrades <span class="label label-info">{{ inventory.length }}</span></h1>
         </div>
-        <!--Lista de Todos-->
-        <div class="row">
-            <div class="col-md-4 input-group">
-                <span class="input-group-addon">Lloc:</span>
-                <select name="locationSelect" class="form-control" id="locationSelect" ng-model="search.location_id" ng-options="location.location_id as location.aula for (key, location) in locations">
-                </select>
-            </div>
-            <div class="col-md-3 input-group">
-                <span class="input-group-addon">Tipus:</span>
-                <select name="typeSelect" class="form-control" id="typeSelect" ng-model="search.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types">
-                </select>
-            </div>
-            <div class="col-md-4 input-group">
-                <span class="input-group-addon">Núm. sèrie:</span>
-                <input name="numSerie" class="form-control" id="numSerie" ng-model="search.num_serie">
-                </select>
-            </div>
-            <div class="col-md-1">
-                <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
-            </div>
-        </div>
 
-        <div class="row form-group">
-            <div class="col-md-4 input-group">
-                <span class="input-group-addon">Des de:</span>
-                <input name="fromDate" class="form-control" type="date" id="fromDate" ng-model="from_date">
-                </select>
-            </div>
-            <div class="col-md-4 input-group">
-                <span class="input-group-addon">Fins:</span>
-                <input name="toDate" class="form-control" type="date" id="toDate" ng-model="to_date">
-                </select>
+        <div class="row">
+            <div class="col-md-12 panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4 input-group">
+                            <span class="input-group-addon">Lloc:</span>
+                            <select name="locationSelect" class="form-control" id="locationSelect" ng-model="search.location_id" ng-options="location.location_id as location.aula for (key, location) in locations"></select>
+                        </div>
+                        <div class="col-md-3 input-group">
+                            <span class="input-group-addon">Tipus:</span>
+                            <select name="typeSelect" class="form-control" id="typeSelect" ng-model="search.type_id" ng-options="type.type_id as type.descripcio for (key, type) in types"></select>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <span class="input-group-addon">Núm. sèrie:</span>
+                            <input name="numSerie" class="form-control" id="numSerie" ng-model="search.num_serie">
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn glyphicon glyphicon-refresh" ng-click="clearFilter()"></button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4 input-group">
+                            <span class="input-group-addon">Des de:</span>
+                            <input name="fromDate" class="form-control" type="date" id="fromDate" ng-model="from_date">
+                        </div>
+
+                        <div class="col-md-4 input-group">
+                            <span class="input-group-addon">Fins:</span>
+                            <input name="toDate" class="form-control" type="date" id="toDate" ng-model="to_date">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="todo-list" class="row">
+        <div class="row">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
