@@ -17,14 +17,16 @@ exports.logout = function(req, res, next) {
 }
 
 exports.loginAction = function(req, res, next) {
+    let loggin = false;
     if (req.body && req.body.username && req.body.username === process.env.INVENTORY_USER &&
         req.body.password && req.body.password === process.env.INVENTORY_PASSWD) {
         req.session.userData = {};
         req.session.userData.email = req.body.username;
-        req.session.userData.avatar = "img/computer-icon.png"
+        req.session.userData.avatar = "img/computer-icon.png";
+        loggin = true;
     }
     let url = req.session.redirectUrl;
-    if (url === undefined) {
+    if (url === undefined || loggin) {
         url = '/index.html';
     }
     return res.redirect(301, url);
