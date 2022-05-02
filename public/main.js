@@ -247,7 +247,7 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
             $scope.inventory = data;
 
             $scope.currentPage = 1
-            $scope.itemsPerPage = 10;
+            $scope.itemsPerPage = 16;
             $scope.maxSize = 5;
             $scope.totalItems = $scope.inventory.length;
 
