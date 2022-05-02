@@ -226,6 +226,9 @@ appModule.controller('getAllInventoryController', ['$scope', '$http', 'filterFil
 
     // Create empty array
     $scope.itemsToGenerateLabels = [];
+    $scope.search = {};
+    $scope.from_date = undefined;
+    $scope.to_date = undefined;
 
     // Modal confirmation
     $scope.openModalRemove = function(id) {

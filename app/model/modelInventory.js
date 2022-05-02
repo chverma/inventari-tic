@@ -62,6 +62,21 @@ Inventory.getInventoryIdByLocationType = function(whereFields, result) {
         where += `type_id = ${whereFields.type_id}`;
     }
 
+    if (whereFields.from_date.length > 0) {
+        if (where.length > 0) {
+            where += ' AND '
+        }
+        where += `created_at >= ${whereFields.from_date}`;
+    }
+
+    if (whereFields.to_date.length > 0) {
+        if (where.length > 0) {
+            where += ' AND '
+        }
+        where += `created_at <= ${whereFields.to_date}`;
+    }
+
+
     if (where.length == 0) {
         where = '1=1';
     }

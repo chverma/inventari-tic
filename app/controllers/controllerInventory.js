@@ -176,7 +176,10 @@ const generate_labels = function(req, res) {
 }
 
 const generate_labels_by_loc_type = function(req, res) {
-    let search = JSON.parse(req.params.search);
+    let search = JSON.parse(req.query.search);
+    search['from_date'] = req.query.from_date;
+    search['to_date'] = req.query.to_date;
+
     Inventory.getInventoryIdByLocationType(search, (err, inventoryIds) => {
         inventoryIds = inventoryIds.map((val, key) => {
             return val['inventory_id'];
