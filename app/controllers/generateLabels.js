@@ -116,7 +116,7 @@ exports.generateLabels = function(inventory_items, req, res) {
                     "y": labelModel[labelModelName].text_etiqueta.y + row * colVerticalIncrement
                 };
 
-                schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 12);
+                schemasObj[newObjKey] = new schemaObj('text', position, 60, 7, 20);
                 inputsObj[newObjKey] = inventory_items[itemCount].text_etiqueta;
 
 
