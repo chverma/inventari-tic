@@ -41,7 +41,8 @@ Inventory.getInventoriesByIds = function(inventoriesIds, result) {
     INNER JOIN location as loc ON i.location_id=loc.location_id 
     INNER JOIN types as t ON i.type_id=t.type_id
     LEFT JOIN inventory_sai as sai ON i.num_serie=sai.num_serie
-    where inventory_id IN (?) `, [inventoriesIds], function(err, res) {
+    where inventory_id IN (?) 
+    ORDER BY location_id`, [inventoriesIds], function(err, res) {
         if (err) {
             console.error('error: ', err);
             result(err, null);
