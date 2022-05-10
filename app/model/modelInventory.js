@@ -36,8 +36,11 @@ Inventory.getInventoryById = function(inventoryId, result) {
 };
 
 Inventory.getInventoriesByIds = function(inventoriesIds, result) {
-    sql.query(`Select * from inventory AS i
+    sql.query(`Select i.*, loc.aula as aula, t.descripcio as tipus, sai_id, cod_article, fabricant, model
+    FROM inventory AS i
     INNER JOIN location as loc ON i.location_id=loc.location_id 
+    INNER JOIN types as t ON i.type_id=t.type_id
+    LEFT JOIN inventory_sai as sai ON i.num_serie=sai.num_serie
     where inventory_id IN (?) `, [inventoriesIds], function(err, res) {
         if (err) {
             console.error('error: ', err);

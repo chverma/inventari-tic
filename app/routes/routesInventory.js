@@ -6,13 +6,14 @@ module.exports = function(app) {
     // todoList Routes
     app.get('/inventory/generate_labels/:inventory_items', inventoryList.generate_labels);
     app.get('/inventory/generate_labels_by_loc_type/', inventoryList.generate_labels_by_loc_type);
+    app.get('/inventory/generate_report/', inventoryList.generate_pdf);
     app.get('/inventory', inventoryList.list_all_inventory);
     app.post('/inventory', inventoryList.create_an_inventory);
 
     app.get('/inventory/:inventoryId', inventoryList.read_an_inventory);
     app.put('/inventory/:inventoryId', inventoryList.update_an_inventory);
     app.delete('/inventory/:inventoryId', inventoryList.delete_an_inventory);
-    app.get('/inventory/generate/:inventoryId', inventoryList.generate_pdf);
+
 
 
 };
