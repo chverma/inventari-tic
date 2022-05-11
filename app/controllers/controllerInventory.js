@@ -97,4 +97,16 @@ const generate_labels_by_loc_type = function(req, res) {
     });
 }
 
-module.exports = { list_all_inventory, create_an_inventory, read_an_inventory, update_an_inventory, delete_an_inventory, generate_labels, generate_labels_by_loc_type, generate_pdf }
+const get_num_items_on_location_by_type = function(req, res) {
+    let search = JSON.parse(req.query.search);
+    search['from_date'] = req.query.from_date;
+    search['to_date'] = req.query.to_date;
+    Inventory.getInventoryIdByLocationType(search, (err, inventoryIds) => {
+        inventoryIds = inventoryIds.map((val, key) => {
+            return val['inventory_id'];
+        });
+        res.json(inventoryIds);
+    });
+}
+
+module.exports = { list_all_inventory, create_an_inventory, read_an_inventory, update_an_inventory, delete_an_inventory, generate_labels, generate_labels_by_loc_type, generate_pdf, get_num_items_on_location_by_type }

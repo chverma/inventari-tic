@@ -478,6 +478,46 @@ appModule.controller('getAllLocationController', function($scope, $http) {
     $http.get('/location')
         .success(function(data) {
             $scope.location = data;
+            for (const key in $scope.location) {
+                $http.get(`/inventory/count?search={"location_id":${$scope.location[key].location_id}, "type_id":0 }&from_date=&to_date=`)
+                    .success(function(data) {
+                        $scope.location[key].num_pc = data.length;
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+                $http.get(`/inventory/count?search={"location_id":${$scope.location[key].location_id}, "type_id":1 }&from_date=&to_date=`)
+                    .success(function(data) {
+                        $scope.location[key].num_monitors = data.length;
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+                $http.get(`/inventory/count?search={"location_id":${$scope.location[key].location_id}, "type_id":2 }&from_date=&to_date=`)
+                    .success(function(data) {
+                        $scope.location[key].num_projectors = data.length;
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+                $http.get(`/inventory/count?search={"location_id":${$scope.location[key].location_id}, "type_id":3 }&from_date=&to_date=`)
+                    .success(function(data) {
+                        $scope.location[key].num_switch = data.length;
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+
+                $http.get(`/inventory/count?search={"location_id":${$scope.location[key].location_id}, "type_id":12 }&from_date=&to_date=`)
+                    .success(function(data) {
+                        $scope.location[key].num_pissarres = data.length;
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+            }
+
+
         })
         .error(function(data) {
             console.log('Error: ' + data);

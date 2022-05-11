@@ -32,6 +32,11 @@
                     <tr>
                         <th scope="col">Aula</th>
                         <th scope="col">Observacions</th>
+                        <th scope="col">Núm. PC</th>
+                        <th scope="col">Núm. Monitors</th>
+                        <th scope="col">Núm. Projectors</th>
+                        <th scope="col">Núm. Switch</th>
+                        <th scope="col">Núm. Pissarres</th>
                         <th scope="col">Acció</th>
                     </tr>
                 </thead>
@@ -39,6 +44,11 @@
                     <tr ng-repeat="i in location">
                         <td>{{ i.aula }}</td>
                         <td>{{ i.observacions }}</td>
+                        <td>{{ i.num_pc }}</td>
+                        <td>{{ i.num_monitors }}</td>
+                        <td>{{ i.num_projectors }}</td>
+                        <td>{{ i.num_switch }}</td>
+                        <td>{{ i.num_pissarres }}</td>
                         <td>
                             <a ng-href="/detallLloc.html?location_id={{i.location_id}}" target="_self" class="glyphicon glyphicon-eye-open"></a>
                             <a ng-click="openModalRemove(i.location_id)" target="_self" class="glyphicon glyphicon-remove-circle mouse-pointer"></a>
